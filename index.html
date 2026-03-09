@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Last 10 Nights — Maximum Ajr Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#08091a; --surface:rgba(14,18,48,0.85); --gold:#c9a84c;
+  --gold-l:#e8c96a; --gold-d:#7a6130; --gold-glow:rgba(201,168,76,0.1);
+  --cream:#f2e8d5; --cream-d:#c8b890; --silver:#9aacbf;
+  --blue:#4a6fa5; --purple:#7b5ea7;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--cream);font-family:'Cormorant Garamond',Georgia,serif;overflow-x:hidden;}
+
+/* STARS */
+#stars{position:fixed;inset:0;pointer-events:none;z-index:0;}
+.star{position:absolute;background:white;border-radius:50%;animation:tw var(--d) ease-in-out infinite;opacity:0;}
+@keyframes tw{0%,100%{opacity:0}50%{opacity:var(--o)}}
+
+/* TOP BAR */
+.topbar{width:100%;height:5px;background:repeating-linear-gradient(90deg,var(--gold) 0,var(--gold) 8px,transparent 8px,transparent 18px,var(--gold-d) 18px,var(--gold-d) 26px,transparent 26px,transparent 36px);}
+
+/* STICKY NAV */
+.nav{position:sticky;top:0;z-index:100;background:rgba(8,9,26,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--gold-d);padding:0 16px;display:flex;align-items:center;gap:0;overflow-x:auto;scrollbar-width:none;}
+.nav::-webkit-scrollbar{display:none;}
+.nav a{font-family:'Cinzel',serif;font-size:0.58rem;color:var(--gold-d);letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;padding:10px 11px;white-space:nowrap;border-right:1px solid rgba(122,97,48,0.2);transition:color .2s,background .2s;}
+.nav a:hover{color:var(--gold);background:var(--gold-glow);}
+.nav-moon{font-size:0.9rem;padding:8px 11px;border-right:1px solid rgba(122,97,48,0.2);}
+
+/* WRAP */
+.wrap{position:relative;z-index:1;max-width:880px;margin:0 auto;padding:0 20px 80px;}
+
+/* HEADER */
+header{text-align:center;padding:52px 0 36px;}
+.moon{font-size:2.8rem;display:block;margin-bottom:12px;filter:drop-shadow(0 0 18px var(--gold));animation:mp 4s ease-in-out infinite;}
+@keyframes mp{0%,100%{filter:drop-shadow(0 0 18px rgba(201,168,76,.6))}50%{filter:drop-shadow(0 0 32px rgba(201,168,76,1))}}
+.ar-header{font-family:serif;font-size:2.4rem;color:var(--gold);direction:rtl;text-shadow:0 0 40px rgba(201,168,76,.3);margin-bottom:8px;}
+h1{font-family:'Cinzel',serif;font-size:clamp(1.2rem,3.5vw,2rem);font-weight:700;color:var(--gold-l);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;}
+.subtitle{font-family:'IM Fell English',serif;font-style:italic;font-size:1.05rem;color:var(--cream-d);}
+
+/* DIVIDER */
+.div{display:flex;align-items:center;gap:14px;margin:28px 0;}
+.div-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold-d),transparent);}
+.div-gem{width:7px;height:7px;background:var(--gold);transform:rotate(45deg);box-shadow:0 0 8px var(--gold);}
+
+/* SECTION TITLE */
+.sec-title{font-family:'Cinzel',serif;font-size:.65rem;color:var(--gold);letter-spacing:.25em;text-transform:uppercase;display:flex;align-items:center;gap:10px;margin-bottom:18px;}
+.sec-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold-d),transparent);}
+
+/* INTRO CARDS */
+.intro-card{background:linear-gradient(135deg,rgba(14,18,48,.9),rgba(8,9,26,.95));border:1px solid var(--gold-d);padding:20px 24px;margin-bottom:14px;position:relative;overflow:hidden;}
+.intro-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(180deg,var(--gold),var(--gold-d),var(--gold));}
+.ic-ar{font-family:serif;font-size:1.25rem;color:var(--gold-l);direction:rtl;text-align:right;line-height:2.1;margin-bottom:6px;}
+.ic-en{font-family:'IM Fell English',serif;font-style:italic;font-size:1rem;color:var(--cream);line-height:1.7;margin-bottom:8px;}
+.ic-src{font-family:'Cinzel',serif;font-size:.6rem;color:var(--gold);letter-spacing:.14em;text-transform:uppercase;}
+
+/* ODD NIGHTS */
+.odd-wrap{border:1px solid var(--gold);padding:18px 22px;margin-bottom:30px;text-align:center;background:var(--gold-glow);}
+.odd-label{font-family:'Cinzel',serif;font-size:.6rem;color:var(--gold);letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px;}
+.odd-chips{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+.chip{background:rgba(201,168,76,.07);border:1px solid var(--gold-d);padding:7px 14px;font-family:'Cinzel',serif;font-size:.82rem;color:var(--gold-l);letter-spacing:.08em;position:relative;}
+.chip.hi{background:rgba(201,168,76,.18);border-color:var(--gold);box-shadow:0 0 14px rgba(201,168,76,.2);}
+.chip .badge{position:absolute;top:-7px;right:-7px;background:var(--gold);color:var(--bg);font-size:.48rem;font-family:'Cinzel',serif;font-weight:700;padding:2px 5px;}
+
+/* KHATM */
+.khatm{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:10px;}
+.kn{background:rgba(14,18,48,.8);border:1px solid rgba(122,97,48,.2);padding:10px 6px;text-align:center;}
+.kn.ta{border-top:2px solid var(--blue);} .kn.tb{border-top:2px solid var(--purple);}
+.kn-num{font-family:'Cinzel',serif;font-size:.58rem;color:var(--gold);letter-spacing:.08em;margin-bottom:3px;}
+.kn-j{font-family:'Cormorant Garamond',serif;font-size:.9rem;color:var(--cream-d);}
+.kn-t{font-family:'Cinzel',serif;font-size:.52rem;letter-spacing:.06em;margin-top:3px;}
+.kn-t.a{color:#6fa8dc;} .kn-t.b{color:#b39ddb;}
+
+/* TARGETS */
+.targets{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;border:1px solid var(--gold-d);margin-bottom:12px;overflow:hidden;}
+.tgt{background:rgba(14,18,48,.8);padding:12px 8px;text-align:center;}
+.tgt-icon{font-size:1.3rem;display:block;margin-bottom:4px;}
+.tgt-lbl{font-family:'Cinzel',serif;font-size:.52rem;color:var(--gold-d);letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;}
+.tgt-val{font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--gold-l);}
+
+/* TOGGLE */
+.toggle-row{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:16px;}
+.tbtn{background:rgba(14,18,48,.8);border:1px solid var(--gold-d);color:var(--cream-d);font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;padding:11px 22px;cursor:pointer;transition:all .3s;}
+.tbtn.on-a{background:rgba(74,111,165,.2);border-color:#6fa8dc;color:#b8d4f5;box-shadow:0 0 18px rgba(74,111,165,.2);}
+.tbtn.on-b{background:rgba(123,94,167,.2);border-color:#b39ddb;color:#d4bbf5;box-shadow:0 0 18px rgba(123,94,167,.2);}
+.tsep{font-family:'Cinzel',serif;font-size:.6rem;color:var(--gold-d);letter-spacing:.15em;padding:0 14px;}
+
+/* SURAH PREVIEW PANEL */
+.surah-preview{margin-bottom:36px;border:1px solid rgba(122,97,48,.3);overflow:hidden;}
+.sp-header{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.sp-col-head{padding:8px 14px;font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;text-align:center;}
+.sp-col-head.a{background:rgba(74,111,165,.12);color:#8bb8e8;border-right:1px solid rgba(122,97,48,.2);}
+.sp-col-head.b{background:rgba(123,94,167,.12);color:#c0a8f0;}
+.sp-body{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid rgba(122,97,48,.2);}
+.sp-side{padding:14px;border-right:1px solid rgba(122,97,48,.15);}
+.sp-side:last-child{border-right:none;}
+.sp-side.inactive{opacity:.35;}
+.sp-session-label{font-family:'Cinzel',serif;font-size:.58rem;color:var(--gold-d);letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px;margin-top:10px;}
+.sp-session-label:first-child{margin-top:0;}
+.sp-surah{display:flex;justify-content:space-between;align-items:baseline;gap:6px;padding:3px 0;border-bottom:1px solid rgba(122,97,48,.08);}
+.sp-surah:last-child{border-bottom:none;}
+.sp-surah-en{font-family:'Cormorant Garamond',serif;font-size:.88rem;color:var(--cream-d);line-height:1.4;}
+.sp-surah-ar{font-family:serif;font-size:.95rem;color:var(--gold-l);direction:rtl;white-space:nowrap;}
+.sp-total{font-family:'Cinzel',serif;font-size:.6rem;color:var(--gold);letter-spacing:.1em;text-align:center;padding:8px;background:rgba(201,168,76,.05);border-top:1px solid rgba(122,97,48,.2);}
+.sp-total.a{color:#8bb8e8;background:rgba(74,111,165,.07);}
+.sp-total.b{color:#c0a8f0;background:rgba(123,94,167,.07);}
+
+/* SCHEDULE */
+.schedule{display:flex;flex-direction:column;gap:0;}
+.tb{display:grid;grid-template-columns:82px 1fr;gap:0;opacity:0;animation:fs .5s ease forwards;}
+.tb:nth-child(1){animation-delay:.05s} .tb:nth-child(2){animation-delay:.10s}
+.tb:nth-child(3){animation-delay:.15s} .tb:nth-child(4){animation-delay:.20s}
+.tb:nth-child(5){animation-delay:.25s} .tb:nth-child(6){animation-delay:.30s}
+.tb:nth-child(7){animation-delay:.35s} .tb:nth-child(8){animation-delay:.40s}
+.tb:nth-child(9){animation-delay:.45s} .tb:nth-child(10){animation-delay:.50s}
+.tb:nth-child(11){animation-delay:.55s} .tb:nth-child(12){animation-delay:.60s}
+.tb:nth-child(13){animation-delay:.65s} .tb:nth-child(14){animation-delay:.70s}
+@keyframes fs{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
+
+.tcol{display:flex;flex-direction:column;align-items:center;padding-top:18px;}
+.tlabel{font-family:'Cinzel',serif;font-size:.62rem;color:var(--gold);letter-spacing:.05em;margin-bottom:7px;white-space:nowrap;}
+.tdot{width:10px;height:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold);flex-shrink:0;}
+.tdot.sp{width:14px;height:14px;background:radial-gradient(circle,var(--gold-l),var(--gold));box-shadow:0 0 18px var(--gold),0 0 36px rgba(201,168,76,.3);}
+.tline{flex:1;width:1px;background:linear-gradient(180deg,var(--gold-d),rgba(122,97,48,.1));min-height:18px;}
+.tb:last-child .tline{display:none;}
+.ccol{padding:14px 0 22px 18px;}
+
+/* CARDS */
+.card{background:linear-gradient(135deg,rgba(14,18,48,.85),rgba(8,9,26,.92));border:1px solid rgba(122,97,48,.22);padding:18px 20px;transition:border-color .3s,box-shadow .3s;}
+.card:hover{border-color:var(--gold-d);box-shadow:0 4px 20px rgba(201,168,76,.08);}
+.card.golden{background:linear-gradient(135deg,rgba(28,20,4,.92),rgba(18,14,2,.97));border-color:var(--gold);box-shadow:0 0 28px rgba(201,168,76,.1),inset 0 0 28px rgba(201,168,76,.03);}
+.card.blue-c{border-color:rgba(74,111,165,.45);background:linear-gradient(135deg,rgba(10,18,38,.9),rgba(7,12,28,.95));}
+.card.purple-c{border-color:rgba(123,94,167,.45);background:linear-gradient(135deg,rgba(16,10,32,.9),rgba(11,7,22,.95));}
+.card.amber{border-color:rgba(201,168,76,.35);background:linear-gradient(135deg,rgba(20,15,3,.88),rgba(14,11,2,.95));}
+.card.family-c{border-color:rgba(100,150,80,.45);background:linear-gradient(135deg,rgba(8,18,10,.9),rgba(5,12,7,.95));}
+
+.card-head{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;flex-wrap:wrap;}
+.card-icon{font-size:1.2rem;flex-shrink:0;margin-top:1px;}
+.card-title{font-family:'Cinzel',serif;font-size:.88rem;font-weight:600;color:var(--gold-l);letter-spacing:.07em;flex:1;line-height:1.5;}
+
+/* WHY TAG */
+.why-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.18);padding:5px 10px;margin-bottom:10px;font-family:'IM Fell English',serif;font-style:italic;font-size:.92rem;color:var(--cream-d);line-height:1.5;width:100%;}
+.why-tag::before{content:'Why';font-family:'Cinzel',serif;font-style:normal;font-size:.55rem;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;background:rgba(201,168,76,.12);padding:2px 6px;flex-shrink:0;}
+
+/* ACTIONS */
+.acts{list-style:none;margin:6px 0 10px;}
+.acts li{font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--cream-d);padding:4px 0 4px 16px;position:relative;line-height:1.55;}
+.acts li::before{content:'◈';position:absolute;left:0;color:var(--gold-d);font-size:.55rem;top:7px;}
+.acts li b{color:var(--cream);}
+
+/* HADITH COMPACT */
+.h-compact{background:rgba(201,168,76,.04);border-left:2px solid var(--gold-d);padding:10px 14px;margin:8px 0;}
+.h-compact .h-ar{font-family:serif;font-size:1.1rem;color:var(--gold-l);direction:rtl;text-align:right;line-height:2;margin-bottom:4px;}
+.h-compact .h-en{font-family:'IM Fell English',serif;font-style:italic;font-size:.9rem;color:var(--cream-d);line-height:1.6;margin-bottom:4px;}
+.h-compact .h-src{font-family:'Cinzel',serif;font-size:.58rem;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;}
+
+/* DHIKR ROW */
+.dk-row{display:flex;align-items:center;border:1px solid rgba(122,97,48,.25);margin:5px 0;overflow:hidden;}
+.dk-ar{flex:1;font-family:serif;font-size:1.05rem;color:var(--gold-l);direction:rtl;text-align:right;line-height:1.9;padding:8px 12px;background:rgba(201,168,76,.04);}
+.dk-count{font-family:'Cinzel',serif;font-size:.68rem;color:var(--gold);letter-spacing:.1em;padding:8px 12px;white-space:nowrap;border-left:1px solid rgba(122,97,48,.2);background:rgba(201,168,76,.07);min-width:70px;text-align:center;}
+.dk-total{font-family:'Cinzel',serif;font-size:.55rem;color:var(--gold-d);margin-top:2px;letter-spacing:.08em;}
+
+/* PRAYER TABLE */
+.pr-table{border:1px solid rgba(122,97,48,.2);margin:10px 0;overflow:hidden;}
+.pr-head{padding:7px 12px;font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;}
+.pr-head.a{background:rgba(74,111,165,.15);color:#b8d4f5;}
+.pr-head.b{background:rgba(123,94,167,.15);color:#d4bbf5;}
+.pr-row{display:grid;grid-template-columns:48px 1fr 56px;border-top:1px solid rgba(122,97,48,.12);}
+.pr-rk{padding:7px 10px;font-family:'Cinzel',serif;font-size:.6rem;color:var(--gold);background:rgba(201,168,76,.04);border-right:1px solid rgba(122,97,48,.12);}
+.pr-s{padding:7px 10px;font-family:'Cormorant Garamond',serif;font-size:.92rem;color:var(--cream-d);line-height:1.4;}
+.pr-s .ar{display:block;font-family:serif;font-size:.85rem;color:var(--gold-l);direction:rtl;text-align:right;margin-top:2px;}
+.pr-n{padding:7px 8px;font-family:'Cinzel',serif;font-size:.58rem;color:var(--gold-d);text-align:right;border-left:1px solid rgba(122,97,48,.12);white-space:nowrap;}
+.pr-foot{padding:7px 12px;background:rgba(201,168,76,.06);font-family:'Cinzel',serif;font-size:.65rem;color:var(--gold);text-align:right;border-top:1px solid rgba(122,97,48,.18);letter-spacing:.08em;}
+
+/* DUA BOX */
+.dua-box{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.25);padding:14px 16px;margin:10px 0;text-align:center;}
+.dua-ar{font-family:serif;font-size:1.45rem;color:var(--gold-l);direction:rtl;line-height:2.1;margin-bottom:6px;}
+.dua-tr{font-family:'IM Fell English',serif;font-style:italic;font-size:.88rem;color:var(--cream-d);margin-bottom:3px;}
+.dua-en{font-family:'Cormorant Garamond',serif;font-size:.85rem;color:var(--silver);}
+
+/* LAST THIRD */
+.last3{background:rgba(201,168,76,.06);border:1px solid var(--gold);padding:14px 18px;margin:10px 0;position:relative;overflow:hidden;}
+.last3::after{content:'';position:absolute;top:-20px;right:-20px;width:90px;height:90px;background:radial-gradient(circle,rgba(201,168,76,.15),transparent 70%);}
+.last3-lbl{font-family:'Cinzel',serif;font-size:.58rem;color:var(--gold);letter-spacing:.18em;text-transform:uppercase;margin-bottom:6px;}
+.last3-ar{font-family:serif;font-size:1.1rem;color:var(--gold-l);direction:rtl;text-align:right;line-height:2;margin-bottom:6px;}
+.last3-en{font-family:'IM Fell English',serif;font-style:italic;font-size:.95rem;color:var(--cream);line-height:1.6;}
+
+/* PERSONAL DUA */
+.pdu-card{background:rgba(28,20,4,.9);border:1px solid var(--gold);padding:18px 22px;margin:10px 0;}
+.pdu-title{font-family:'Cinzel',serif;font-size:.65rem;color:var(--gold);letter-spacing:.18em;text-transform:uppercase;margin-bottom:10px;}
+.pdu-item{font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--cream-d);padding:4px 0 4px 16px;position:relative;line-height:1.5;}
+.pdu-item::before{content:'✦';position:absolute;left:0;color:var(--gold-d);font-size:.55rem;top:7px;}
+.pdu-item.tip{color:var(--gold-d);font-style:italic;}
+
+/* DHIKR SUMMARY */
+.dk-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;margin-bottom:40px;}
+.dk-sum-card{background:rgba(14,18,48,.8);border:1px solid rgba(122,97,48,.25);padding:14px 16px;}
+.dk-sum-title{font-family:'Cinzel',serif;font-size:.62rem;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px;}
+.dk-sum-ar{font-family:serif;font-size:1.05rem;color:var(--gold-l);direction:rtl;text-align:right;line-height:1.9;margin-bottom:6px;}
+.dk-sum-dist{font-family:'Cormorant Garamond',serif;font-size:.88rem;color:var(--cream-d);line-height:1.5;}
+.dk-sum-total{font-family:'Cinzel',serif;font-size:.62rem;color:var(--gold);margin-top:6px;letter-spacing:.08em;}
+.dk-sum-src{font-family:'Cinzel',serif;font-size:.55rem;color:var(--gold-d);letter-spacing:.1em;margin-top:4px;}
+
+/* AYAH CARD */
+.ayah-card{border:1px solid var(--gold-d);padding:24px 28px;text-align:center;margin-bottom:48px;background:rgba(14,18,48,.7);}
+.ayah-ar{font-family:serif;font-size:1.55rem;color:var(--gold-l);direction:rtl;line-height:2.4;margin-bottom:10px;}
+.ayah-en{font-family:'IM Fell English',serif;font-style:italic;font-size:1rem;color:var(--cream);line-height:1.75;margin-bottom:8px;}
+.ayah-src{font-family:'Cinzel',serif;font-size:.6rem;color:var(--gold);letter-spacing:.14em;text-transform:uppercase;}
+
+footer{text-align:center;padding:28px 0 0;border-top:1px solid rgba(122,97,48,.3);}
+footer p{font-family:'IM Fell English',serif;font-style:italic;color:var(--silver);font-size:.92rem;line-height:1.7;}
+.gold{color:var(--gold);}
+
+/* NIGHT TYPE VISIBILITY */
+.na{display:block;} .nb{display:none;}
+body.sb .na{display:none;} body.sb .nb{display:block;}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  .tb{grid-template-columns:68px 1fr;}
+  .khatm{grid-template-columns:repeat(2,1fr);}
+  .targets{grid-template-columns:repeat(2,1fr);}
+  .tlabel{font-size:.56rem;}
+  .ar-header{font-size:1.8rem;}
+  .pr-row{grid-template-columns:40px 1fr;}
+  .pr-n{display:none;}
+  .tsep{display:none;}
+  .sp-body{grid-template-columns:1fr;}
+  .sp-header{grid-template-columns:1fr;}
+  .sp-col-head.b{display:none;}
+  .sp-side:last-child{border-top:1px solid rgba(122,97,48,.2);}
+}
+</style>
+</head>
+<body>
+
+<div id="stars"></div>
+<div class="topbar"></div>
+
+<!-- STICKY NAV -->
+<nav class="nav">
+  <span class="nav-moon">☽</span>
+  <a href="#intro">Intro</a>
+  <a href="#khatm">Khatm</a>
+  <a href="#targets">Targets</a>
+  <a href="#schedule">Schedule</a>
+  <a href="#s900">9:00 PM</a>
+  <a href="#s1000">10:00 PM</a>
+  <a href="#s1100">11:00 PM</a>
+  <a href="#s1200">12:00 AM</a>
+  <a href="#s100">1:00 AM</a>
+  <a href="#s130">1:30 AM</a>
+  <a href="#s230">2:30 AM</a>
+  <a href="#s300">3:00 AM ⭐</a>
+  <a href="#s400">4:00 AM 🤲</a>
+  <a href="#s415">Suhoor</a>
+  <a href="#s420">Witr</a>
+  <a href="#dhikr-map">Dhikr Map</a>
+</nav>
+
+<div class="wrap">
+
+<!-- ═══ HEADER ═══ -->
+<header id="intro">
+  <span class="moon">☽</span>
+  <div class="ar-header">العشر الأواخر من رمضان</div>
+  <h1>The Last Ten Nights of Ramadan</h1>
+  <p class="subtitle">A structured nightly plan for maximum reward — 9:00 PM to Fajr 4:30 AM</p>
+</header>
+
+<div class="div"><div class="div-line"></div><div class="div-gem"></div><div class="div-line"></div></div>
+
+<!-- Foundational Ahadith -->
+<div class="sec-title">Why These Ten Nights Are Different</div>
+
+<div class="intro-card">
+  <div class="ic-ar">«كَانَ النَّبِيُّ ﷺ إِذَا دَخَلَ الْعَشْرُ شَدَّ مِئْزَرَهُ، وَأَحْيَا لَيْلَهُ، وَأَيْقَظَ أَهْلَهُ»</div>
+  <div class="ic-en">"When the last ten days began, the Prophet ﷺ would tighten his waist-wrapper, stay up the entire night, and awaken his family." — He abandoned all comfort for ten nights without exception.</div>
+  <div class="ic-src">Sahih Al-Bukhari 2024 · Sahih Muslim 1174</div>
+</div>
+<div class="intro-card">
+  <div class="ic-ar">«مَنْ قَامَ لَيْلَةَ الْقَدْرِ إِيمَانًا وَاحْتِسَابًا غُفِرَ لَهُ مَا تَقَدَّمَ مِنْ ذَنْبِهِ»</div>
+  <div class="ic-en">"Whoever stands in prayer on Laylatul Qadr out of faith and hoping for reward, all his previous sins will be forgiven." — One night wipes a lifetime of sin.</div>
+  <div class="ic-src">Sahih Al-Bukhari 1901 · Sahih Muslim 760</div>
+</div>
+<div class="intro-card">
+  <div class="ic-ar">«مَنْ قَرَأَ فِي لَيْلَةٍ بِأَلْفِ آيَةٍ كُتِبَ مِنَ الْمُقَنْطِرِينَ»</div>
+  <div class="ic-en">"Whoever recites one thousand verses in a single night will be recorded among Al-Muqantareen — those with treasures beyond measure." — This plan reaches that level every night.</div>
+  <div class="ic-src">Sunan Abu Dawud 1398 · Ibn Hibban 2572</div>
+</div>
+
+<!-- Odd nights -->
+<div class="odd-wrap">
+  <div class="odd-label">Seek Laylatul Qadr in the odd nights · Bukhari 2017 · Muslim 1169</div>
+  <div class="odd-chips">
+    <div class="chip">21st</div>
+    <div class="chip">23rd</div>
+    <div class="chip hi">25th</div>
+    <div class="chip hi">27th <span class="badge">Strongest</span></div>
+    <div class="chip hi">29th</div>
+  </div>
+  <p style="margin-top:10px;font-family:'Cormorant Garamond',serif;font-size:.92rem;color:var(--cream-d)">Follow this same plan on even nights — no night in the last ten should be abandoned.</p>
+</div>
+
+<!-- ═══ KHATM ═══ -->
+<div id="khatm">
+  <div class="sec-title">Quran Khatm — 3 Juzz Per Night = Full Khatm in 10 Nights</div>
+  <p style="font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--cream-d);margin-bottom:14px;line-height:1.6;">Each night you recite exactly 3 juzz — split across three tilawah sessions. This completes the full Quran over the ten nights.</p>
+  <div class="khatm">
+    <div class="kn tb"><div class="kn-num">Night 1 · 21st</div><div class="kn-j">Juzz 1–3</div><div class="kn-t b">Type B</div></div>
+    <div class="kn ta"><div class="kn-num">Night 2 · 22nd</div><div class="kn-j">Juzz 4–6</div><div class="kn-t a">Type A</div></div>
+    <div class="kn tb"><div class="kn-num">Night 3 · 23rd</div><div class="kn-j">Juzz 7–9</div><div class="kn-t b">Type B</div></div>
+    <div class="kn ta"><div class="kn-num">Night 4 · 24th</div><div class="kn-j">Juzz 10–12</div><div class="kn-t a">Type A</div></div>
+    <div class="kn tb"><div class="kn-num">Night 5 · 25th</div><div class="kn-j">Juzz 13–15</div><div class="kn-t b">Type B</div></div>
+    <div class="kn ta"><div class="kn-num">Night 6 · 26th</div><div class="kn-j">Juzz 16–18</div><div class="kn-t a">Type A</div></div>
+    <div class="kn tb"><div class="kn-num">Night 7 · 27th</div><div class="kn-j">Juzz 19–21</div><div class="kn-t b">Type B</div></div>
+    <div class="kn ta"><div class="kn-num">Night 8 · 28th</div><div class="kn-j">Juzz 22–24</div><div class="kn-t a">Type A</div></div>
+    <div class="kn tb"><div class="kn-num">Night 9 · 29th</div><div class="kn-j">Juzz 25–27</div><div class="kn-t b">Type B</div></div>
+    <div class="kn ta"><div class="kn-num">Night 10 · 30th</div><div class="kn-j">Juzz 28–30</div><div class="kn-t a">Type A</div></div>
+  </div>
+</div>
+
+<!-- ═══ TARGETS ═══ -->
+<div id="targets" style="padding-top:8px;">
+  <div class="sec-title" style="margin-top:24px;">Nightly Targets — Every Night</div>
+  <div class="targets">
+    <div class="tgt"><span class="tgt-icon">📖</span><div class="tgt-lbl">Quran Recitation</div><div class="tgt-val">3 Juzz</div></div>
+    <div class="tgt"><span class="tgt-icon">🤲</span><div class="tgt-lbl">Prayer (Ayat)</div><div class="tgt-val">~1,000</div></div>
+    <div class="tgt"><span class="tgt-icon">☽</span><div class="tgt-lbl">Laylatul Qadr Dua</div><div class="tgt-val">×100</div></div>
+    <div class="tgt"><span class="tgt-icon">📿</span><div class="tgt-lbl">Al-Ikhlas</div><div class="tgt-val">×30</div></div>
+    <div class="tgt"><span class="tgt-icon">✨</span><div class="tgt-lbl">SubhanAllah al-Adhim</div><div class="tgt-val">×100</div></div>
+    <div class="tgt"><span class="tgt-icon">🌟</span><div class="tgt-lbl">La ilaha illallah</div><div class="tgt-val">×100</div></div>
+    <div class="tgt"><span class="tgt-icon">💛</span><div class="tgt-lbl">Salawat Ibrahimiyyah</div><div class="tgt-val">×100</div></div>
+    <div class="tgt"><span class="tgt-icon">🤝</span><div class="tgt-lbl">Dua for Mu'mineen</div><div class="tgt-val">×30</div></div>
+  </div>
+
+  <!-- TOGGLE + SURAH PREVIEW -->
+  <div class="sec-title" style="margin-top:24px;">Prayer Type — Alternates Each Night</div>
+  <p style="font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--cream-d);margin-bottom:14px;line-height:1.6;">Prayer is split into 3 sessions across the night totalling ~1,000 ayat — the level of <em>Al-Muqantareen</em>. The two types alternate nightly. Toggle to preview the full surah list for each.</p>
+
+  <div class="toggle-row">
+    <button class="tbtn on-a" id="btnA" onclick="setNight('a')">◈ Type A · جزء تبارك + عمّ</button>
+    <span class="tsep">or</span>
+    <button class="tbtn" id="btnB" onclick="setNight('b')">◈ Type B · الاثنا عشر سورة</button>
+  </div>
+
+  <!-- SURAH PREVIEW PANEL — updates with toggle -->
+  <div class="surah-preview">
+    <div class="sp-header">
+      <div class="sp-col-head a">Type A — جزء تبارك + عمّ · ~975 Ayat</div>
+      <div class="sp-col-head b">Type B — الاثنا عشر سورة · 1,001 Ayat</div>
+    </div>
+    <div class="sp-body">
+      <!-- TYPE A SIDE -->
+      <div class="sp-side na" id="spA">
+        <div class="sp-session-label">Session 1 · 10:30 PM · ~340 Ayat</div>
+        <div class="sp-surah"><span class="sp-surah-en">Al-Mulk</span><span class="sp-surah-ar">الملك</span></div>
+        <div class="sp-surah"><span class="sp-surah-en">Al-Qalam</span><span class="sp-surah-ar">القلم</span></div>
+        <div class="sp-surah"><span class="sp-surah-en">Al-Haqqah</span><span class="sp-surah-ar">الحاقة</span></div>
+        <div class="sp-surah"><span class="sp-surah-en">Al-Ma'arij</span><span class="sp-surah-ar">المعارج</span></div>
+        <div class="sp-surah"><span class="sp-surah-en">Nuh</span><span class="sp-surah-ar">نوح</span></div>
+        <div class="sp-surah"><span class="sp-surah-en">Al-Jinn</span><span class="sp-surah-ar">الجن</span></div>
+        <div class="sp-surah"><span class="sp-surah-en">Al-Muzzammil</span><span class="sp-surah-ar">المزمل</span></div>
+        <div class="sp-surah"><span class="sp-surah-en">Al-Muddaththir</span><span class="sp-surah-ar">المدثر</span></div>
+        <div class="sp-surah"><span class="sp-surah-en">Al-Qiyamah</span><span class="sp-surah-ar">القيامة</span></div>
+        <div class="sp-session-label">Session 2 · 1:30 AM · ~330 Ayat</div>
+        <div class="sp-surah"><span class="sp-surah-en">Al-Insan</span><span class="sp-surah-ar">الإنسان</span></div>
+        <div class="sp-surah"><span class="sp-surah-en">Al-Mursalat</span><span class="sp-surah-ar">المرسلات</span></div>
+        <div class="sp-surah"><span class="sp-surah-en">An-Naba'</span><span class="sp-surah-ar">النبأ</span></div>
+        <div class="sp-surah"><span class="sp-surah-en">An-Nazi'at</span><span class="sp-surah-ar">النازعات</span></div>
+        <div class="sp-surah"><span class="sp-surah-en">Abasa</span><span class="sp-surah-ar">عبس</span></div>
+        <div class="sp-surah"><span class="sp-surah-en">At-Takwir</span><span class="sp-surah-ar">التكوير</span></div>
+        <div class="sp-surah"><span class="sp-surah-en">Al-Infitar</span><span class="sp-surah-ar">الانفطار</span></div>
+        <div class="sp-surah"><span class="sp-surah-en">Al-Mutaffifin</span><span class="sp-surah-ar">المطففين</span></div>
+        <div class="sp-surah"><span class="sp-surah-en">Al-Inshiqaq</span><span class="sp-surah-ar">الانشقاق</span></div>
+        <div class="sp-surah"><span class="sp-surah-en">Al-Buruj</span><span class="sp-surah-ar">البروج</span></div>
+        <div class="sp-session-label">Session 3 · 3:00 AM · ~305 Ayat (Last Third ⭐)</div>
+        <div class="sp-surah"><span class="sp-surah-en">At-Tariq</span><span class="sp-surah-ar">الطارق</span></div>
+        <div class="sp-surah"><span class="sp-surah-en">Al-A'la</span><span class="sp-surah-ar">الأعلى</span></div>
+        <div class="sp-surah"><span class="sp-surah-en">Al-Ghashiyah</span><span class="sp-surah-ar">الغاشية</span></div>
+        <div class="sp-surah"><span class="sp-surah-en">Al-Fajr</span><span class="sp-surah-ar">الفجر</span></div>
+        <div class="sp-surah"><span class="sp-surah-en">Al-Balad → Al-Alaq</span><span class="sp-surah-ar">البلد ← العلق</span></div>
+        <div class="sp-surah"><span class="sp-surah-en">Al-Qadr → Al-Ma'un</span><span class="sp-surah-ar">القدر ← الماعون</span></div>
+        <div class="sp-surah"><span class="sp-surah-en">Al-Kawthar → An-Nas</span><span class="sp-surah-ar">الكوثر ← الناس</span></div>
+      </div>
+      <!-- TYPE B SIDE -->
+      <div class="sp-side nb" id="spB">
+        <div class="sp-session-label">Session 1 · 10:30 PM · 227 Ayat</div>
+        <div class="sp-surah"><span class="sp-surah-en">Ash-Shu'ara (full)</span><span class="sp-surah-ar">الشعراء</span></div>
+        <div class="sp-session-label">Session 2 · 1:30 AM · 286 Ayat</div>
+        <div class="sp-surah"><span class="sp-surah-en">As-Saffat</span><span class="sp-surah-ar">الصافات</span></div>
+        <div class="sp-surah"><span class="sp-surah-en">Ad-Dukhan</span><span class="sp-surah-ar">الدخان</span></div>
+        <div class="sp-surah"><span class="sp-surah-en">Qaf</span><span class="sp-surah-ar">ق</span></div>
+        <div class="sp-session-label">Session 3 · 3:00 AM · 488 Ayat (Last Third ⭐)</div>
+        <div class="sp-surah"><span class="sp-surah-en">Adh-Dhariyat</span><span class="sp-surah-ar">الذاريات</span></div>
+        <div class="sp-surah"><span class="sp-surah-en">At-Tur</span><span class="sp-surah-ar">الطور</span></div>
+        <div class="sp-surah"><span class="sp-surah-en">An-Najm</span><span class="sp-surah-ar">النجم</span></div>
+        <div class="sp-surah"><span class="sp-surah-en">Al-Qamar</span><span class="sp-surah-ar">القمر</span></div>
+        <div class="sp-surah"><span class="sp-surah-en">Ar-Rahman</span><span class="sp-surah-ar">الرحمن</span></div>
+        <div class="sp-surah"><span class="sp-surah-en">Al-Waqi'ah</span><span class="sp-surah-ar">الواقعة</span></div>
+        <div class="sp-surah"><span class="sp-surah-en">An-Nazi'at</span><span class="sp-surah-ar">النازعات</span></div>
+        <div class="sp-surah"><span class="sp-surah-en">Abasa</span><span class="sp-surah-ar">عبس</span></div>
+      </div>
+    </div>
+    <div class="sp-total na" id="spTotalA">Type A Total: ~975 Ayat across 3 sessions · Al-Muqantareen ✓</div>
+    <div class="sp-total b nb" id="spTotalB">Type B Total: 1,001 Ayat across 3 sessions · Al-Muqantareen ✓</div>
+  </div>
+</div>
+
+<!-- ═══ SCHEDULE ═══ -->
+<div id="schedule" style="padding-top:4px;">
+  <div class="sec-title">Nightly Schedule</div>
+</div>
+
+<div class="schedule">
+
+  <!-- 9:00 PM — START WITH QURAN -->
+  <div class="tb" id="s900">
+    <div class="tcol"><div class="tlabel">9:00 PM</div><div class="tdot"></div><div class="tline"></div></div>
+    <div class="ccol">
+      <div class="card">
+        <div class="card-head"><span class="card-icon">📖</span><div class="card-title">Tilawah — Juzz 1 of 3 · ~60 min</div></div>
+        <div class="why-tag">Begin the night immediately with the Quran. Every letter earns 10 hasanat. Jibril ﷺ revised the entire Quran with the Prophet ﷺ every Ramadan — opening the night with recitation sets the tone for everything that follows.</div>
+        <ul class="acts">
+          <li>Recite the <b>first of tonight's three juzz</b> (approx. 20 pages) at a clear, focused pace.</li>
+          <li>Recite with tajweed — slow and precise earns more than fast and careless.</li>
+          <li>If your eyes fill with tears, do not stop. That is one of the highest stations before Allah.</li>
+        </ul>
+        <div class="h-compact">
+          <div class="h-ar">«مَنْ قَرَأَ حَرْفًا مِنْ كِتَابِ اللَّهِ فَلَهُ بِهِ حَسَنَةٌ، وَالْحَسَنَةُ بِعَشْرِ أَمْثَالِهَا»</div>
+          <div class="h-en">"Whoever recites one letter of the Book of Allah earns one good deed, and that deed is multiplied ten times."</div>
+          <div class="h-src">Sunan At-Tirmidhi 2910 — Graded Sahih</div>
+        </div>
+        <p style="font-family:'Cinzel',serif;font-size:.6rem;color:var(--gold);letter-spacing:.14em;text-transform:uppercase;margin:10px 0 6px;">After completing this juzz:</p>
+        <div class="dk-row">
+          <div class="dk-ar">قُلْ هُوَ اللَّهُ أَحَدٌ (سورة الإخلاص)</div>
+          <div class="dk-count">×10<div class="dk-total">10 / 30</div></div>
+        </div>
+        <div class="dk-row">
+          <div class="dk-ar">اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي</div>
+          <div class="dk-count">×25<div class="dk-total">25 / 100</div></div>
+        </div>
+        <div class="h-compact">
+          <div class="h-ar">«قُلْ هُوَ اللَّهُ أَحَدٌ تَعْدِلُ ثُلُثَ الْقُرْآنِ»</div>
+          <div class="h-en">"Qul Huwa Allahu Ahad equals one-third of the Quran." Reciting it ×30 per night = 10 complete Quranic recitations on top of your khatm.</div>
+          <div class="h-src">Sahih Muslim 811 · Sahih Al-Bukhari 5013</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10:00 PM — QIYAM SESSION 1 -->
+  <div class="tb" id="s1000">
+    <div class="tcol"><div class="tlabel">10:00 PM</div><div class="tdot sp"></div><div class="tline"></div></div>
+    <div class="ccol">
+      <!-- TYPE A -->
+      <div class="na card blue-c">
+        <div class="card-head"><span class="card-icon">🤲</span><div class="card-title">Qiyam — Session 1 of 3 · Type A · جزء تبارك · ~340 Ayat</div></div>
+        <div class="why-tag">Night prayer is the most virtuous voluntary worship after the obligatory prayers. Standing before Allah with long surahs is the act that defines the 'Ibad Ar-Rahman — and every ayah in prayer carries a weight beyond ordinary recitation.</div>
+        <ul class="acts">
+          <li>Pray <b>4 raka'at in pairs of 2.</b> Make salam after every 2.</li>
+          <li>Keep <b>sujood long</b> — whisper personal dua in it. The closest you are to Allah is in sujood.</li>
+        </ul>
+        <div class="pr-table">
+          <div class="pr-head a">◈ Type A · Session 1 · 4 Raka'at · ~340 Ayat</div>
+          <div class="pr-row"><div class="pr-rk">R. 1</div><div class="pr-s">Al-Mulk + Al-Qalam<span class="ar">الملك · القلم</span></div><div class="pr-n">82 ayat</div></div>
+          <div class="pr-row"><div class="pr-rk">R. 2</div><div class="pr-s">Al-Haqqah + Al-Ma'arij<span class="ar">الحاقة · المعارج</span></div><div class="pr-n">96 ayat</div></div>
+          <div class="pr-row"><div class="pr-rk">R. 3</div><div class="pr-s">Nuh + Al-Jinn + Al-Muzzammil<span class="ar">نوح · الجن · المزمل</span></div><div class="pr-n">76 ayat</div></div>
+          <div class="pr-row"><div class="pr-rk">R. 4</div><div class="pr-s">Al-Muddaththir + Al-Qiyamah<span class="ar">المدثر · القيامة</span></div><div class="pr-n">86 ayat</div></div>
+          <div class="pr-foot">Session 1: ~340 Ayat · Running: 340 / ~1,000</div>
+        </div>
+        <div class="dk-row" style="margin-top:8px;">
+          <div class="dk-ar">سُبْحَانَ اللَّهِ الْعَظِيمِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ وَرِضَا نَفْسِهِ وَزِنَةَ عَرْشِهِ وَمِدَادَ كَلِمَاتِهِ</div>
+          <div class="dk-count">×34<div class="dk-total">34 / 100</div></div>
+        </div>
+      </div>
+      <!-- TYPE B -->
+      <div class="nb card purple-c">
+        <div class="card-head"><span class="card-icon">🤲</span><div class="card-title">Qiyam — Session 1 of 3 · Type B · الشعراء · 227 Ayat</div></div>
+        <div class="why-tag">Ash-Shu'ara contains the accounts of Musa, Ibrahim, Nuh, Hud, Salih, and Lut ﷺ — an entire night's journey through the stories of the Prophets, recited in a single standing before Allah.</div>
+        <ul class="acts">
+          <li>Pray <b>4 raka'at in pairs of 2</b>, dividing Ash-Shu'ara evenly (~57 ayat per raka'ah).</li>
+        </ul>
+        <div class="pr-table">
+          <div class="pr-head b">◈ Type B · Session 1 · 4 Raka'at · الشعراء · 227 Ayat</div>
+          <div class="pr-row"><div class="pr-rk">R. 1</div><div class="pr-s">Ash-Shu'ara 1–57<span class="ar">الشعراء</span></div><div class="pr-n">57 ayat</div></div>
+          <div class="pr-row"><div class="pr-rk">R. 2</div><div class="pr-s">Ash-Shu'ara 58–114<span class="ar">الشعراء</span></div><div class="pr-n">57 ayat</div></div>
+          <div class="pr-row"><div class="pr-rk">R. 3</div><div class="pr-s">Ash-Shu'ara 115–171<span class="ar">الشعراء</span></div><div class="pr-n">57 ayat</div></div>
+          <div class="pr-row"><div class="pr-rk">R. 4</div><div class="pr-s">Ash-Shu'ara 172–227<span class="ar">الشعراء</span></div><div class="pr-n">56 ayat</div></div>
+          <div class="pr-foot">Session 1: 227 Ayat · Running: 227 / 1,001</div>
+        </div>
+        <div class="dk-row" style="margin-top:8px;">
+          <div class="dk-ar">سُبْحَانَ اللَّهِ الْعَظِيمِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ وَرِضَا نَفْسِهِ وَزِنَةَ عَرْشِهِ وَمِدَادَ كَلِمَاتِهِ</div>
+          <div class="dk-count">×34<div class="dk-total">34 / 100</div></div>
+        </div>
+      </div>
+      <div class="h-compact" style="margin-top:8px;">
+        <div class="h-ar">«أَقْرَبُ مَا يَكُونُ الْعَبْدُ مِنْ رَبِّهِ وَهُوَ سَاجِدٌ فَأَكْثِرُوا الدُّعَاءَ»</div>
+        <div class="h-en">"The closest a servant is to his Lord is when he is in sujood — so make abundant supplication." For the SubhanAllah dhikr: the Prophet ﷺ told Aisha (RA) these words outweigh everything else she had said that night.</div>
+        <div class="h-src">Sahih Muslim 482 · Sahih Muslim 2726</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11:00 PM — TILAWAH 2 -->
+  <div class="tb" id="s1100">
+    <div class="tcol"><div class="tlabel">11:00 PM</div><div class="tdot"></div><div class="tline"></div></div>
+    <div class="ccol">
+      <div class="card">
+        <div class="card-head"><span class="card-icon">📖</span><div class="card-title">Tilawah — Juzz 2 of 3 · ~60 min</div></div>
+        <div class="why-tag">Splitting the recitation into sessions maintains focus and depth. Each session is a fresh encounter with the Book of Allah — not a marathon, but a conversation.</div>
+        <ul class="acts">
+          <li>Recite the <b>second of tonight's three juzz.</b> Keep wudu if possible as a form of reverence.</li>
+        </ul>
+        <div class="dk-row" style="margin-top:8px;">
+          <div class="dk-ar">لَا إِلٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ</div>
+          <div class="dk-count">×34<div class="dk-total">34 / 100</div></div>
+        </div>
+        <div class="dk-row">
+          <div class="dk-ar">اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي</div>
+          <div class="dk-count">×25<div class="dk-total">50 / 100</div></div>
+        </div>
+        <div class="h-compact">
+          <div class="h-ar">«مَنْ قَالَ لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ... مِئَةَ مَرَّةٍ كَانَتْ لَهُ عَدْلَ عَشْرِ رِقَابٍ وَكُتِبَ لَهُ مِئَةُ حَسَنَةٍ وَمُحِيَتْ عَنْهُ مِئَةُ سَيِّئَةٍ»</div>
+          <div class="h-en">"Whoever says La ilaha illallah wahdahu… one hundred times: it equals freeing ten slaves, one hundred good deeds are written, one hundred sins erased, and he is protected from Shaytan all day."</div>
+          <div class="h-src">Sahih Al-Bukhari 3293 · Sahih Muslim 2691</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 12:00 AM — DHIKR STATION -->
+  <div class="tb" id="s1200">
+    <div class="tcol"><div class="tlabel">12:00 AM</div><div class="tdot"></div><div class="tline"></div></div>
+    <div class="ccol">
+      <div class="card amber">
+        <div class="card-head"><span class="card-icon">📿</span><div class="card-title">Dhikr Station — Al-Baqarah + Dua for Mu'mineen + Salawat</div></div>
+        <div class="why-tag">Three acts with extraordinary weight: the last two ayat of Al-Baqarah were gifted from beneath Allah's Throne, the Dua for Mu'mineen earns a hasanah for every believer alive and dead, and Salawat earns ten blessings from Allah for every one you send.</div>
+
+        <p style="font-family:'Cinzel',serif;font-size:.6rem;color:var(--gold);letter-spacing:.14em;text-transform:uppercase;margin:2px 0 6px;">1 · Last Two Ayat of Surah Al-Baqarah (البقرة) — Recite once, with full attention:</p>
+        <div class="dua-box">
+          <div class="dua-ar">آمَنَ الرَّسُولُ بِمَا أُنزِلَ إِلَيْهِ مِن رَّبِّهِ وَالْمُؤْمِنُونَ... (البقرة ٢٨٥–٢٨٦)</div>
+          <div class="dua-tr">Recite to the very end of Surah Al-Baqarah — slowly and with reflection.</div>
+          <div class="dua-en">These verses were sent from beneath the Throne of Allah and "suffice" the one who recites them at night.</div>
+        </div>
+        <div class="h-compact">
+          <div class="h-ar">«مَنْ قَرَأَ بِالآيَتَيْنِ مِنْ آخِرِ سُورَةِ الْبَقَرَةِ فِي لَيْلَةٍ كَفَتَاهُ»</div>
+          <div class="h-en">"Whoever recites the two verses at the end of Surah Al-Baqarah in a night, they will suffice him."</div>
+          <div class="h-src">Sahih Al-Bukhari 5009 · Sahih Muslim 807</div>
+        </div>
+
+        <p style="font-family:'Cinzel',serif;font-size:.6rem;color:var(--gold);letter-spacing:.14em;text-transform:uppercase;margin:12px 0 6px;">2 · Dua for the Mu'mineen — ×15 here, ×15 later = 30:</p>
+        <div class="dk-row">
+          <div class="dk-ar">اللَّهُمَّ اغْفِرْ لِلْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ الْمُسْلِمِينَ وَالْمُسْلِمَاتِ الأَحْيَاءِ مِنْهُمْ وَالأَمْوَاتِ</div>
+          <div class="dk-count">×15<div class="dk-total">15 / 30</div></div>
+        </div>
+        <div class="h-compact">
+          <div class="h-ar">«مَنِ اسْتَغْفَرَ لِلْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ كَتَبَ اللَّهُ لَهُ بِكُلِّ مُؤْمِنٍ وَمُؤْمِنَةٍ حَسَنَةً»</div>
+          <div class="h-en">"Whoever seeks forgiveness for believing men and women, Allah will write for him a good deed for every believing man and woman" — multiplied across every Muslim who has ever lived.</div>
+          <div class="h-src">Al-Tabarani, Al-Kabir 10352 — Hasan (Al-Albani)</div>
+        </div>
+
+        <p style="font-family:'Cinzel',serif;font-size:.6rem;color:var(--gold);letter-spacing:.14em;text-transform:uppercase;margin:12px 0 6px;">3 · Salawat Ibrahimiyyah — the exact form the Prophet ﷺ taught — ×34 here:</p>
+        <div class="dua-box">
+          <div class="dua-ar">اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ كَمَا صَلَّيْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ ۝ اللَّهُمَّ بَارِكْ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ كَمَا بَارَكْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ</div>
+          <div class="dua-tr">Allāhumma ṣalli ʿalā Muḥammadin wa ʿalā āli Muḥammadin kamā ṣallayta ʿalā Ibrāhīma...</div>
+          <div class="dua-en">The complete Salawat Ibrahimiyyah — the exact wording the Prophet ﷺ taught when asked how to send blessings upon him.</div>
+        </div>
+        <div class="dk-row">
+          <div class="dk-ar">الصلاة الإبراهيمية الكاملة (كما سبق)</div>
+          <div class="dk-count">×34<div class="dk-total">34 / 100</div></div>
+        </div>
+        <div class="h-compact">
+          <div class="h-ar">«مَنْ صَلَّى عَلَيَّ وَاحِدَةً صَلَّى اللَّهُ عَلَيْهِ عَشْرًا»</div>
+          <div class="h-en">"Whoever sends one blessing upon me, Allah sends ten upon him." × 34 here = 340 blessings from Allah.</div>
+          <div class="h-src">Sahih Muslim 408 · Salawat text: Bukhari 3370 · Muslim 406</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1:00 AM — FAMILY BREAK (MID-NIGHT) -->
+  <div class="tb" id="s100">
+    <div class="tcol"><div class="tlabel">1:00 AM</div><div class="tdot"></div><div class="tline"></div></div>
+    <div class="ccol">
+      <div class="card family-c">
+        <div class="card-head"><span class="card-icon">🍃</span><div class="card-title">Mid-Night Energy Break — Family Snack + Quran Discussion</div></div>
+        <div class="why-tag">The most demanding part of the night is still ahead — the Last Third begins at 3:00 AM. A short energy break here, with family, re-fuels the body and re-ignites the heart through collective reflection on the Quran you have already recited tonight.</div>
+        <ul class="acts">
+          <li>Eat a light snack and drink water together. <b>Keep the energy for what is coming, not for what has passed.</b></li>
+          <li>Discuss the three juzz you will recite tonight — their stories, themes, and what struck you. This is worship, not idle talk.</li>
+          <li>Remind each other: <em>"The last third starts at 3:00 AM. Allah is calling out right now — we will answer."</em></li>
+          <li>Give <b>Sadaqah</b> now if you haven't already — even a small, sincere amount.</li>
+        </ul>
+        <div class="h-compact">
+          <div class="h-ar">«كَانَ رَسُولُ اللَّهِ ﷺ أَجْوَدَ النَّاسِ، وَكَانَ أَجْوَدُ مَا يَكُونُ فِي رَمَضَانَ»</div>
+          <div class="h-en">"The Messenger of Allah ﷺ was the most generous of people, and he was most generous in Ramadan."</div>
+          <div class="h-src">Sahih Al-Bukhari 1902 · Sahih Muslim 2308</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1:30 AM — QIYAM SESSION 2 -->
+  <div class="tb" id="s130">
+    <div class="tcol"><div class="tlabel">1:30 AM</div><div class="tdot sp"></div><div class="tline"></div></div>
+    <div class="ccol">
+      <!-- TYPE A -->
+      <div class="na card blue-c">
+        <div class="card-head"><span class="card-icon">🤲</span><div class="card-title">Qiyam — Session 2 of 3 · Type A · جزء تبارك (بقية) · ~330 Ayat</div></div>
+        <div class="why-tag">Re-entering prayer after the break with renewed energy. These surahs — beginning with the vivid descriptions of An-Naba' and An-Nazi'at — are a powerful transition into the final third of the night.</div>
+        <div class="pr-table">
+          <div class="pr-head a">◈ Type A · Session 2 · 4 Raka'at · ~330 Ayat</div>
+          <div class="pr-row"><div class="pr-rk">R. 1</div><div class="pr-s">Al-Insan + Al-Mursalat<span class="ar">الإنسان · المرسلات</span></div><div class="pr-n">81 ayat</div></div>
+          <div class="pr-row"><div class="pr-rk">R. 2</div><div class="pr-s">An-Naba' + An-Nazi'at<span class="ar">النبأ · النازعات</span></div><div class="pr-n">86 ayat</div></div>
+          <div class="pr-row"><div class="pr-rk">R. 3</div><div class="pr-s">Abasa + At-Takwir + Al-Infitar<span class="ar">عبس · التكوير · الانفطار</span></div><div class="pr-n">90 ayat</div></div>
+          <div class="pr-row"><div class="pr-rk">R. 4</div><div class="pr-s">Al-Mutaffifin + Al-Inshiqaq + Al-Buruj<span class="ar">المطففين · الانشقاق · البروج</span></div><div class="pr-n">83 ayat</div></div>
+          <div class="pr-foot">Session 2: ~330 Ayat · Running: ~670 / ~1,000</div>
+        </div>
+        <div class="dk-row" style="margin-top:8px;">
+          <div class="dk-ar">سُبْحَانَ اللَّهِ الْعَظِيمِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ وَرِضَا نَفْسِهِ وَزِنَةَ عَرْشِهِ وَمِدَادَ كَلِمَاتِهِ</div>
+          <div class="dk-count">×33<div class="dk-total">67 / 100</div></div>
+        </div>
+      </div>
+      <!-- TYPE B -->
+      <div class="nb card purple-c">
+        <div class="card-head"><span class="card-icon">🤲</span><div class="card-title">Qiyam — Session 2 of 3 · Type B · الصافات · الدخان · ق · ~286 Ayat</div></div>
+        <div class="why-tag">As-Saffat opens with the rows of angels — Qaf with the piercing call at the start of time. These surahs re-awaken awe after the family break and build intensity toward the Last Third ahead.</div>
+        <div class="pr-table">
+          <div class="pr-head b">◈ Type B · Session 2 · 4 Raka'at · ~286 Ayat</div>
+          <div class="pr-row"><div class="pr-rk">R. 1</div><div class="pr-s">As-Saffat first half<span class="ar">الصافات (١–٩١)</span></div><div class="pr-n">91 ayat</div></div>
+          <div class="pr-row"><div class="pr-rk">R. 2</div><div class="pr-s">As-Saffat second half<span class="ar">الصافات (٩٢–١٨٢)</span></div><div class="pr-n">91 ayat</div></div>
+          <div class="pr-row"><div class="pr-rk">R. 3</div><div class="pr-s">Ad-Dukhan<span class="ar">الدخان</span></div><div class="pr-n">59 ayat</div></div>
+          <div class="pr-row"><div class="pr-rk">R. 4</div><div class="pr-s">Qaf<span class="ar">ق</span></div><div class="pr-n">45 ayat</div></div>
+          <div class="pr-foot">Session 2: 286 Ayat · Running: 513 / 1,001</div>
+        </div>
+        <div class="dk-row" style="margin-top:8px;">
+          <div class="dk-ar">سُبْحَانَ اللَّهِ الْعَظِيمِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ وَرِضَا نَفْسِهِ وَزِنَةَ عَرْشِهِ وَمِدَادَ كَلِمَاتِهِ</div>
+          <div class="dk-count">×33<div class="dk-total">67 / 100</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2:30 AM — TILAWAH 3 + KHATM COMPLETE -->
+  <div class="tb" id="s230">
+    <div class="tcol"><div class="tlabel">2:30 AM</div><div class="tdot"></div><div class="tline"></div></div>
+    <div class="ccol">
+      <div class="card">
+        <div class="card-head"><span class="card-icon">📖</span><div class="card-title">Tilawah — Juzz 3 of 3 · Khatm Target Complete ✓ · ~60 min</div></div>
+        <div class="why-tag">Completing tonight's khatm portion before the Last Third means you enter the most sacred hours having already fulfilled your Quran obligation — freeing your heart fully for the peak dua session.</div>
+        <ul class="acts">
+          <li>Recite the <b>third and final juzz</b> of tonight's target.</li>
+          <li>If you finish early, begin tomorrow's first juzz or repeat Al-Fatiha with slow reflection.</li>
+        </ul>
+        <div class="dk-row" style="margin-top:8px;">
+          <div class="dk-ar">قُلْ هُوَ اللَّهُ أَحَدٌ (سورة الإخلاص)</div>
+          <div class="dk-count">×10<div class="dk-total">20 / 30</div></div>
+        </div>
+        <div class="dk-row">
+          <div class="dk-ar">لَا إِلٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ</div>
+          <div class="dk-count">×33<div class="dk-total">67 / 100</div></div>
+        </div>
+        <div class="dk-row">
+          <div class="dk-ar">اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي</div>
+          <div class="dk-count">×25<div class="dk-total">75 / 100</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3:00 AM — THE LAST THIRD -->
+  <div class="tb" id="s300">
+    <div class="tcol"><div class="tlabel">3:00 AM</div><div class="tdot sp"></div><div class="tline"></div></div>
+    <div class="ccol">
+      <!-- TYPE A -->
+      <div class="na card golden">
+        <div class="card-head"><span class="card-icon">⭐</span><div class="card-title">THE LAST THIRD — Qiyam Session 3 · Type A · جزء عمّ · ~305 Ayat</div></div>
+        <div class="last3">
+          <div class="last3-lbl">Sahih Al-Bukhari 1145 · Sahih Muslim 758</div>
+          <div class="last3-ar">«يَنْزِلُ رَبُّنَا تَبَارَكَ وَتَعَالَى إِلَى السَّمَاءِ الدُّنْيَا حِينَ يَبْقَى ثُلُثُ اللَّيْلِ الآخِرُ فَيَقُولُ: مَنْ يَدْعُونِي فَأَسْتَجِيبَ لَهُ؟ مَنْ يَسْأَلُنِي فَأُعْطِيَهُ؟ مَنْ يَسْتَغْفِرُنِي فَأَغْفِرَ لَهُ؟»</div>
+          <div class="last3-en">"Our Lord descends to the lowest heaven in the last third of the night, saying: Who calls upon Me that I may answer? Who asks that I may give? Who seeks forgiveness that I may forgive?" — Allah is calling out right now. Do not stop.</div>
+        </div>
+        <div class="pr-table" style="margin-top:10px;">
+          <div class="pr-head a">◈ Type A · Session 3 · 4 Raka'at · جزء عمّ · ~305 Ayat</div>
+          <div class="pr-row"><div class="pr-rk">R. 1</div><div class="pr-s">At-Tariq + Al-A'la + Al-Ghashiyah + Al-Fajr<span class="ar">الطارق · الأعلى · الغاشية · الفجر</span></div><div class="pr-n">92 ayat</div></div>
+          <div class="pr-row"><div class="pr-rk">R. 2</div><div class="pr-s">Al-Balad + Ash-Shams + Al-Layl + Ad-Duha + Ash-Sharh + At-Tin + Al-Alaq<span class="ar">البلد · الشمس · الليل · الضحى · الشرح · التين · العلق</span></div><div class="pr-n">102 ayat</div></div>
+          <div class="pr-row"><div class="pr-rk">R. 3</div><div class="pr-s">Al-Qadr + Al-Bayyinah + Az-Zalzalah + Al-Adiyat + Al-Qari'ah + At-Takathur + Al-Asr + Al-Humazah + Al-Fil + Quraysh + Al-Ma'un<span class="ar">القدر · البينة · الزلزلة · العاديات · القارعة · التكاثر · العصر · الهمزة · الفيل · قريش · الماعون</span></div><div class="pr-n">79 ayat</div></div>
+          <div class="pr-row"><div class="pr-rk">R. 4</div><div class="pr-s">Al-Kawthar + Al-Kafirun + An-Nasr + Al-Masad + Al-Ikhlas + Al-Falaq + An-Nas<span class="ar">الكوثر · الكافرون · النصر · المسد · الإخلاص · الفلق · الناس</span></div><div class="pr-n">32 ayat</div></div>
+          <div class="pr-foot">Session 3: ~305 Ayat · ✦ GRAND TOTAL: ~975 Ayat · Al-Muqantareen ✓</div>
+        </div>
+      </div>
+      <!-- TYPE B -->
+      <div class="nb card golden">
+        <div class="card-head"><span class="card-icon">⭐</span><div class="card-title">THE LAST THIRD — Qiyam Session 3 · Type B · الذاريات · الطور · النجم · القمر · الرحمن · الواقعة · النازعات · عبس · 488 Ayat</div></div>
+        <div class="last3">
+          <div class="last3-lbl">Sahih Al-Bukhari 1145 · Sahih Muslim 758</div>
+          <div class="last3-ar">«يَنْزِلُ رَبُّنَا تَبَارَكَ وَتَعَالَى إِلَى السَّمَاءِ الدُّنْيَا حِينَ يَبْقَى ثُلُثُ اللَّيْلِ الآخِرُ»</div>
+          <div class="last3-en">"Our Lord descends to the lowest heaven in the last third of the night." Reciting Ar-Rahman and Al-Waqi'ah — the vivid descriptions of Jannah — in this sacred hour is among the most powerful acts possible.</div>
+        </div>
+        <div class="pr-table" style="margin-top:10px;">
+          <div class="pr-head b">◈ Type B · Session 3 · 4 Raka'at · 8 Surahs · 488 Ayat</div>
+          <div class="pr-row"><div class="pr-rk">R. 1</div><div class="pr-s">Adh-Dhariyat + At-Tur<span class="ar">الذاريات · الطور</span></div><div class="pr-n">109 ayat</div></div>
+          <div class="pr-row"><div class="pr-rk">R. 2</div><div class="pr-s">An-Najm + Al-Qamar<span class="ar">النجم · القمر</span></div><div class="pr-n">117 ayat</div></div>
+          <div class="pr-row"><div class="pr-rk">R. 3</div><div class="pr-s">Ar-Rahman + Al-Waqi'ah<span class="ar">الرحمن · الواقعة</span></div><div class="pr-n">174 ayat</div></div>
+          <div class="pr-row"><div class="pr-rk">R. 4</div><div class="pr-s">An-Nazi'at + Abasa<span class="ar">النازعات · عبس</span></div><div class="pr-n">88 ayat</div></div>
+          <div class="pr-foot">Session 3: 488 Ayat · ✦ GRAND TOTAL: 1,001 Ayat · Al-Muqantareen ✓</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4:00 AM — PEAK DUA -->
+  <div class="tb" id="s400">
+    <div class="tcol"><div class="tlabel">4:00 AM</div><div class="tdot sp"></div><div class="tline"></div></div>
+    <div class="ccol">
+      <div class="card golden">
+        <div class="card-head"><span class="card-icon">🤲</span><div class="card-title">The Peak — Laylatul Qadr Dua + Personal Duas + Completing All Dhikr</div></div>
+        <div class="why-tag">You have completed your Quran target and your prayer target. Allah is descending, calling out, and waiting. This is the moment the entire night was building towards — pour your heart out and do not stop until Fajr.</div>
+
+        <p style="font-family:'Cinzel',serif;font-size:.6rem;color:var(--gold);letter-spacing:.14em;text-transform:uppercase;margin:4px 0 8px;">1 · The Laylatul Qadr Dua — repeat as many times as you can:</p>
+        <div class="dua-box">
+          <div class="dua-ar">اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي</div>
+          <div class="dua-tr">Allāhumma innaka ʿafuwwun tuḥibb al-ʿafwa faʿfu ʿannī</div>
+          <div class="dua-en">"O Allah, You are the Pardoner, You love to pardon, so pardon me."</div>
+        </div>
+        <div class="dk-row">
+          <div class="dk-ar">اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي</div>
+          <div class="dk-count">×25<div class="dk-total">100 / 100 ✓</div></div>
+        </div>
+        <div class="h-compact">
+          <div class="h-ar">«قَالَتْ عَائِشَةُ: يَا رَسُولَ اللَّهِ، أَرَأَيْتَ إِنْ عَلِمْتُ أَيُّ لَيْلَةٍ لَيْلَةُ الْقَدْرِ مَا أَقُولُ فِيهَا؟ قَالَ: قُولِي: اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي»</div>
+          <div class="h-en">Aisha (RA): "If I know which night is Laylatul Qadr, what should I say?" He ﷺ replied with exactly this dua — the single most confirmed act for these nights.</div>
+          <div class="h-src">Sunan At-Tirmidhi 3513 — Graded Sahih · Ibn Majah 3850</div>
+        </div>
+
+        <p style="font-family:'Cinzel',serif;font-size:.6rem;color:var(--gold);letter-spacing:.14em;text-transform:uppercase;margin:12px 0 8px;">2 · Your Personal Duas — say each one by name, in sujood:</p>
+        <div class="pdu-card">
+          <div class="pdu-title">✦ Ask for Everything — Allah Loves to Be Asked</div>
+          <div class="pdu-item">Your health, your family's wellbeing and protection</div>
+          <div class="pdu-item">Forgiveness — be specific about what you regret most</div>
+          <div class="pdu-item">Al-Firdaws Al-A'la — ask for the highest level of Jannah by name</div>
+          <div class="pdu-item">Your most pressing worldly need this year — name it directly</div>
+          <div class="pdu-item">Ease in your rizq, your work, your studies, your worries</div>
+          <div class="pdu-item">Guidance for family members who have strayed from the deen</div>
+          <div class="pdu-item">Mercy for the Ummah — the oppressed, the sick, those in conflict</div>
+          <div class="pdu-item">Whatever you have never said aloud — Allah already knows it, now ask</div>
+          <div class="pdu-item tip">→ Write your personal list before Ramadan and bring it here every night.</div>
+        </div>
+        <div class="h-compact">
+          <div class="h-ar">«أَقْرَبُ مَا يَكُونُ الْعَبْدُ مِنْ رَبِّهِ وَهُوَ سَاجِدٌ فَأَكْثِرُوا الدُّعَاءَ»</div>
+          <div class="h-en">"The closest a servant is to his Lord is in sujood — so increase your supplication." Make all personal duas in sujood.</div>
+          <div class="h-src">Sahih Muslim 482</div>
+        </div>
+
+        <p style="font-family:'Cinzel',serif;font-size:.6rem;color:var(--gold);letter-spacing:.14em;text-transform:uppercase;margin:12px 0 8px;">3 · Complete all remaining counts:</p>
+        <div class="dk-row">
+          <div class="dk-ar">اللَّهُمَّ اغْفِرْ لِلْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ الْمُسْلِمِينَ وَالْمُسْلِمَاتِ الأَحْيَاءِ مِنْهُمْ وَالأَمْوَاتِ</div>
+          <div class="dk-count">×15<div class="dk-total">30 / 30 ✓</div></div>
+        </div>
+        <div class="dk-row">
+          <div class="dk-ar">سُبْحَانَ اللَّهِ الْعَظِيمِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ وَرِضَا نَفْسِهِ وَزِنَةَ عَرْشِهِ وَمِدَادَ كَلِمَاتِهِ</div>
+          <div class="dk-count">×33<div class="dk-total">100 / 100 ✓</div></div>
+        </div>
+        <div class="dk-row">
+          <div class="dk-ar">لَا إِلٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ</div>
+          <div class="dk-count">×33<div class="dk-total">100 / 100 ✓</div></div>
+        </div>
+        <div class="dk-row">
+          <div class="dk-ar">الصلاة الإبراهيمية الكاملة</div>
+          <div class="dk-count">×66<div class="dk-total">100 / 100 ✓</div></div>
+        </div>
+        <div class="dk-row">
+          <div class="dk-ar">قُلْ هُوَ اللَّهُ أَحَدٌ (سورة الإخلاص)</div>
+          <div class="dk-count">×10<div class="dk-total">30 / 30 ✓</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4:15 AM — SUHOOR -->
+  <div class="tb" id="s415">
+    <div class="tcol"><div class="tlabel">4:15 AM</div><div class="tdot"></div><div class="tline"></div></div>
+    <div class="ccol">
+      <div class="card">
+        <div class="card-head"><span class="card-icon">🌅</span><div class="card-title">Suhoor — The Blessed Meal</div></div>
+        <div class="why-tag">Suhoor is a sunnah with barakah — it sustains you for the day. You are still inside the Last Third while eating, so do not let this time pass in silence.</div>
+        <ul class="acts">
+          <li>Eat lightly and drink well. Keep repeating the <b>Laylatul Qadr dua</b> quietly throughout.</li>
+          <li>Continue sending Salawat and making personal duas — you are still in the most sacred time window.</li>
+        </ul>
+        <div class="h-compact">
+          <div class="h-ar">«تَسَحَّرُوا فَإِنَّ فِي السَّحُورِ بَرَكَةً»</div>
+          <div class="h-en">"Eat Suhoor, for in Suhoor there is blessing."</div>
+          <div class="h-src">Sahih Al-Bukhari 1923 · Sahih Muslim 1095</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4:20 AM — WITR -->
+  <div class="tb" id="s420">
+    <div class="tcol"><div class="tlabel">4:20 AM</div><div class="tdot sp"></div><div class="tline"></div></div>
+    <div class="ccol">
+      <div class="card golden">
+        <div class="card-head"><span class="card-icon">🌙</span><div class="card-title">Witr + Final Dua Before Fajr</div></div>
+        <div class="why-tag">Witr seals the night. The gap between the Fajr adhan and iqamah is explicitly confirmed as a time when dua is not rejected — use every remaining second.</div>
+        <ul class="acts">
+          <li>Pray <b>Witr — 1 or 3 raka'at</b> with Dua al-Qunut in the final raka'ah.</li>
+          <li>After Witr: repeat the <b>Laylatul Qadr dua</b> non-stop until the adhan.</li>
+          <li>When the adhan sounds — make dua during it, then again <b>between adhan and iqamah.</b></li>
+        </ul>
+        <div class="h-compact">
+          <div class="h-ar">«اجْعَلُوا آخِرَ صَلَاتِكُمْ بِاللَّيْلِ وِتْرًا»</div>
+          <div class="h-en">"Make Witr the last of your night prayers."</div>
+          <div class="h-src">Sahih Muslim 751 · Sahih Al-Bukhari 998</div>
+        </div>
+        <div class="h-compact">
+          <div class="h-ar">«الدُّعَاءُ بَيْنَ الأَذَانِ وَالإِقَامَةِ لَا يُرَدُّ»</div>
+          <div class="h-en">"Dua between the adhan and the iqamah is not rejected."</div>
+          <div class="h-src">Sunan Abu Dawud 521 — Graded Sahih · Sunan At-Tirmidhi 212</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4:30 AM — FAJR -->
+  <div class="tb">
+    <div class="tcol"><div class="tlabel">4:30 AM</div><div class="tdot sp"></div><div class="tline"></div></div>
+    <div class="ccol">
+      <div class="card golden">
+        <div class="card-head"><span class="card-icon">🌄</span><div class="card-title">Salat Al-Fajr — The Seal of the Night</div></div>
+        <div class="why-tag">Fajr in congregation is equivalent to standing in prayer the entire night. It is the seal of everything you have done — pray it with the same presence as Tahajjud.</div>
+        <div class="h-compact">
+          <div class="h-ar">«مَنْ صَلَّى الصُّبْحَ فِي جَمَاعَةٍ فَكَأَنَّمَا صَلَّى اللَّيْلَ كُلَّهُ»</div>
+          <div class="h-en">"Whoever prays Fajr in congregation is as if he prayed the entire night."</div>
+          <div class="h-src">Sahih Muslim 656</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /schedule -->
+
+<!-- ═══ DHIKR MAP ═══ -->
+<div class="div" style="margin-top:40px;"><div class="div-line"></div><div class="div-gem"></div><div class="div-line"></div></div>
+<div id="dhikr-map">
+  <div class="sec-title">Nightly Dhikr Completion Map</div>
+  <p style="font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--cream-d);margin-bottom:16px;line-height:1.6;">Every target is distributed across the night so no single session becomes overwhelming. Use this as your quick-reference tracker.</p>
+</div>
+
+<div class="dk-summary">
+  <div class="dk-sum-card">
+    <div class="dk-sum-title">☽ Laylatul Qadr Dua × 100</div>
+    <div class="dk-sum-ar">اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي</div>
+    <div class="dk-sum-dist">×25 after Tilawah 1 (9:00 PM) · ×25 after Tilawah 2 (11:00 PM) · ×25 after Tilawah 3 (2:30 AM) · ×25 at Peak Dua (4:00 AM)</div>
+    <div class="dk-sum-total">= 100 / 100 ✓ &nbsp;·&nbsp; The single most confirmed act for Laylatul Qadr</div>
+    <div class="dk-sum-src">Tirmidhi 3513 Sahih · Ibn Majah 3850</div>
+  </div>
+  <div class="dk-sum-card">
+    <div class="dk-sum-title">📿 Surah Al-Ikhlas (سورة الإخلاص) × 30</div>
+    <div class="dk-sum-ar">قُلْ هُوَ اللَّهُ أَحَدٌ</div>
+    <div class="dk-sum-dist">×10 after Tilawah 1 (9:00 PM) · ×10 after Tilawah 3 (2:30 AM) · ×10 at Peak Dua (4:00 AM)</div>
+    <div class="dk-sum-total">= 30 / 30 ✓ &nbsp;·&nbsp; Reward equivalent to 10 full Quran recitations</div>
+    <div class="dk-sum-src">Sahih Muslim 811 · Sahih Al-Bukhari 5013</div>
+  </div>
+  <div class="dk-sum-card">
+    <div class="dk-sum-title">✨ SubhanAllah al-Adhim wa bihamdihi × 100</div>
+    <div class="dk-sum-ar">سُبْحَانَ اللَّهِ الْعَظِيمِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ وَرِضَا نَفْسِهِ وَزِنَةَ عَرْشِهِ وَمِدَادَ كَلِمَاتِهِ</div>
+    <div class="dk-sum-dist">×34 after Qiyam 1 (10:00 PM) · ×33 after Qiyam 2 (1:30 AM) · ×33 at Peak (4:00 AM)</div>
+    <div class="dk-sum-total">= 100 / 100 ✓ &nbsp;·&nbsp; Outweighs all other dhikr combined</div>
+    <div class="dk-sum-src">Sahih Muslim 2726</div>
+  </div>
+  <div class="dk-sum-card">
+    <div class="dk-sum-title">🌟 La ilaha illallah wahdahu × 100</div>
+    <div class="dk-sum-ar">لَا إِلٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ</div>
+    <div class="dk-sum-dist">×34 after Tilawah 2 (11:00 PM) · ×33 after Tilawah 3 (2:30 AM) · ×33 at Peak (4:00 AM)</div>
+    <div class="dk-sum-total">= 100 / 100 ✓ &nbsp;·&nbsp; Equivalent to freeing 10 slaves, 100 sins erased</div>
+    <div class="dk-sum-src">Sahih Al-Bukhari 3293 · Sahih Muslim 2691</div>
+  </div>
+  <div class="dk-sum-card">
+    <div class="dk-sum-title">💛 Salawat Ibrahimiyyah × 100</div>
+    <div class="dk-sum-ar">اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ...</div>
+    <div class="dk-sum-dist">×34 at Dhikr Station (12:00 AM) · ×66 at Peak Dua (4:00 AM)</div>
+    <div class="dk-sum-total">= 100 / 100 ✓ &nbsp;·&nbsp; = 1,000 blessings from Allah upon you</div>
+    <div class="dk-sum-src">Sahih Muslim 408 · Bukhari 3370 · Muslim 406</div>
+  </div>
+  <div class="dk-sum-card">
+    <div class="dk-sum-title">🤝 Dua for Mu'mineen × 30</div>
+    <div class="dk-sum-ar">اللَّهُمَّ اغْفِرْ لِلْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ...</div>
+    <div class="dk-sum-dist">×15 at Dhikr Station (12:00 AM) · ×15 at Peak Dua (4:00 AM)</div>
+    <div class="dk-sum-total">= 30 / 30 ✓ &nbsp;·&nbsp; A hasanah for every Muslim who ever lived</div>
+    <div class="dk-sum-src">Al-Tabarani Al-Kabir 10352 — Hasan</div>
+  </div>
+</div>
+
+<!-- CLOSING AYAH -->
+<div class="ayah-card">
+  <div class="ayah-ar">إِنَّا أَنزَلْنَٰهُ فِى لَيْلَةِ ٱلْقَدْرِ ۝ وَمَآ أَدْرَىٰكَ مَا لَيْلَةُ ٱلْقَدْرِ ۝ لَيْلَةُ ٱلْقَدْرِ خَيْرٌ مِّنْ أَلْفِ شَهْرٍ</div>
+  <div class="ayah-en">"Indeed, We sent it down during the Night of Decree. And what can make you know what is the Night of Decree? The Night of Decree is better than a thousand months."</div>
+  <div class="ayah-src">Surah Al-Qadr · 97:1–3</div>
+</div>
+
+<footer>
+  <p>Every hadith in this plan is from <span class="gold">Sahih Al-Bukhari, Sahih Muslim,</span> or verified Sahih/Hasan chains in Tirmidhi, Abu Dawud, Ibn Hibban, Al-Tabarani, and Ibn Majah.<br>No weak or fabricated narration has been included. May Allah grant you Laylatul Qadr and accept every breath.</p>
+  <br>
+  <p style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--gold-d);letter-spacing:.1em;">اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي</p>
+</footer>
+
+</div><!-- /wrap -->
+
+<script>
+// Stars
+const sc=document.getElementById('stars');
+for(let i=0;i<200;i++){
+  const s=document.createElement('div');s.className='star';
+  const z=Math.random()*2.2+0.4;
+  s.style.cssText=`width:${z}px;height:${z}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${2+Math.random()*4}s;--o:${0.25+Math.random()*0.75};animation-delay:${Math.random()*6}s;`;
+  sc.appendChild(s);
+}
+
+// Toggle + surah preview
+function setNight(t){
+  const b=document.body,a=document.getElementById('btnA'),b2=document.getElementById('btnB');
+  const spA=document.getElementById('spA'),spB=document.getElementById('spB');
+  const tA=document.getElementById('spTotalA'),tB=document.getElementById('spTotalB');
+  if(t==='a'){
+    b.classList.remove('sb');
+    a.classList.add('on-a');a.classList.remove('on-b');
+    b2.classList.remove('on-a','on-b');
+    // preview
+    spA.classList.remove('inactive'); spB.classList.add('inactive');
+  } else {
+    b.classList.add('sb');
+    b2.classList.add('on-b');b2.classList.remove('on-a');
+    a.classList.remove('on-a','on-b');
+    // preview
+    spB.classList.remove('inactive'); spA.classList.add('inactive');
+  }
+}
+// init preview state
+document.getElementById('spB').classList.add('inactive');
+</script>
+</body>
+</html>
