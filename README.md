@@ -1,4 +1,4 @@
-# 🌙 Last 10 Nights of Ramadan — Maximum Ajr Plan
+# 🌙 Last 10 Nights of Ramadan: Maximum Ajr Plan
 
 A structured, nightly worship plan for the last 10 nights of Ramadan built entirely on **authentic (Sahih) hadith and Quran**. No weak or fabricated narrations.
 
