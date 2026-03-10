@@ -244,6 +244,47 @@ footer p{font-family:'IM Fell English',serif;font-style:italic;color:var(--silve
   .tsep{display:none}
   .sp-rows{grid-template-columns:1fr}
 }
+
+/* ── LANGUAGE TOGGLE ── */
+.lang-btn{
+  margin-right:auto;padding:6px 14px;
+  font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.1em;
+  color:var(--gold);background:rgba(201,168,76,.08);
+  border:1px solid var(--gold-d);cursor:pointer;white-space:nowrap;
+  transition:all .2s;flex-shrink:0;
+}
+.lang-btn:hover{background:rgba(201,168,76,.18);color:var(--gold-l)}
+
+/* ── ARABIC MODE ── */
+body.lang-ar{direction:rtl}
+body.lang-ar .nav{direction:ltr}
+body.lang-ar .wrap{direction:rtl}
+body.lang-ar .ar-hd{display:none}
+body.lang-ar h1{font-family:serif;font-size:clamp(1.4rem,4vw,2.4rem);letter-spacing:0}
+body.lang-ar .why::before{content:'لماذا'}
+body.lang-ar .acts li{padding-left:0;padding-right:16px}
+body.lang-ar .acts li::before{left:auto;right:0}
+body.lang-ar .pdu-i{padding-left:0;padding-right:16px}
+body.lang-ar .pdu-i::before{left:auto;right:0}
+body.lang-ar .ic::before{left:auto;right:0}
+body.lang-ar .hc{border-left:none;border-right:2px solid var(--gold-d)}
+body.lang-ar .tb{grid-template-columns:1fr 82px}
+body.lang-ar .tcol{order:2}
+body.lang-ar .ccol{padding:14px 18px 22px 0;order:1}
+body.lang-ar .pt-rk{border-right:none;border-left:1px solid rgba(122,97,48,.12)}
+body.lang-ar .pt-n{border-left:none;border-right:1px solid rgba(122,97,48,.12);text-align:left}
+body.lang-ar .pt-f{text-align:left}
+body.lang-ar .dk-n{border-left:none;border-right:1px solid rgba(122,97,48,.2)}
+body.lang-ar .sp-row{direction:rtl}
+body.lang-ar .sp-n{margin-left:0;margin-right:8px}
+body.lang-ar .sec::after{display:none}
+body.lang-ar .sec::before{content:'';flex:1;height:1px;background:linear-gradient(270deg,var(--gold-d),transparent)}
+body.lang-ar .card-head{direction:rtl}
+body.lang-ar .chip .badge{right:auto;left:-7px}
+body.lang-ar footer{direction:rtl}
+@media(max-width:600px){
+  body.lang-ar .tb{grid-template-columns:1fr 68px}
+}
 </style>
 </head>
 <body>
@@ -268,6 +309,7 @@ footer p{font-family:'IM Fell English',serif;font-style:italic;color:var(--silve
   <a href="#s415">Suhoor</a>
   <a href="#s420">Witr</a>
   <a href="#dhikr-map">Dhikr Map</a>
+  <button class="lang-btn" id="langBtn" onclick="setLang(document.body.classList.contains('lang-ar')?'en':'ar')">عربي</button>
 </nav>
 
 <div class="wrap">
@@ -730,7 +772,7 @@ const NIGHTS = {
     color: 'a',
     sessions: [
       {
-        label: 'Session 1 · 10:00 PM · 350 ayat',
+        label: 'Session 1 · 10:00 PM · 350 ayat', labelAr: 'الجلسة ١ · ١٠:٠٠ م · ٣٥٠ آية',
         surahs: [
           {en:'Al-Mulk',ar:'الملك',n:30},
           {en:'Al-Qalam',ar:'القلم',n:52},
@@ -744,7 +786,7 @@ const NIGHTS = {
         ]
       },
       {
-        label: 'Session 2 · 1:30 AM · 340 ayat',
+        label: 'Session 2 · 1:30 AM · 340 ayat', labelAr: 'الجلسة ٢ · ١:٣٠ ص · ٣٤٠ آية',
         surahs: [
           {en:'Al-Insan',ar:'الإنسان',n:31},
           {en:'Al-Mursalat',ar:'المرسلات',n:50},
@@ -759,7 +801,7 @@ const NIGHTS = {
         ]
       },
       {
-        label: 'Session 3 · 3:00 AM · Last Third ⭐ · 305 ayat',
+        label: 'Session 3 · 3:00 AM · Last Third ⭐ · 305 ayat', labelAr: 'الجلسة ٣ · ٣:٠٠ ص · الثلث الأخير ⭐ · ٣٠٥ آية',
         surahs: [
           {en:'At-Tariq',ar:'الطارق',n:17},
           {en:"Al-A'la",ar:'الأعلى',n:19},
@@ -800,13 +842,13 @@ const NIGHTS = {
     color: 'b',
     sessions: [
       {
-        label: 'Session 1 · 10:00 PM · 227 ayat',
+        label: 'Session 1 · 10:00 PM · 227 ayat', labelAr: 'الجلسة ١ · ١٠:٠٠ م · ٢٢٧ آية',
         surahs: [
           {en:"Ash-Shu'ara",ar:'الشعراء',n:227},
         ]
       },
       {
-        label: 'Session 2 · 1:30 AM · 286 ayat',
+        label: 'Session 2 · 1:30 AM · 286 ayat', labelAr: 'الجلسة ٢ · ١:٣٠ ص · ٢٨٦ آية',
         surahs: [
           {en:'As-Saffat',ar:'الصافات',n:182},
           {en:'Ad-Dukhan',ar:'الدخان',n:59},
@@ -814,7 +856,7 @@ const NIGHTS = {
         ]
       },
       {
-        label: 'Session 3 · 3:00 AM · Last Third ⭐ · 488 ayat',
+        label: 'Session 3 · 3:00 AM · Last Third ⭐ · 488 ayat', labelAr: 'الجلسة ٣ · ٣:٠٠ ص · الثلث الأخير ⭐ · ٤٨٨ آية',
         surahs: [
           {en:'Adh-Dhariyat',ar:'الذاريات',n:60},
           {en:'At-Tur',ar:'الطور',n:49},
@@ -835,22 +877,29 @@ function buildPreview(type) {
   const el = document.getElementById('surahPreview');
   el.className = `surah-preview showing-${type}`;
   const accent = type === 'a' ? '#6fa8dc' : '#b39ddb';
+  const isAr = document.body.classList.contains('lang-ar');
+  const typeLabel = isAr ? (type === 'a' ? 'النوع أ' : 'النوع ب') : (type === 'a' ? 'TYPE A' : 'TYPE B');
+  const totalLabel = isAr ? d.total.replace('Ayat','آية').replace('Sessions','جلسات') : d.total;
+  const footerLabel = isAr ? 'المقنطرين ✓' : 'Al-Muqantareen ✓';
+  const ayatWord = isAr ? 'آية' : 'ayat';
+  const align = isAr ? 'left' : 'right';
 
   let html = `<div class="sp-header ${type}">
-    <span>◈ ${type === 'a' ? 'TYPE A' : 'TYPE B'} &nbsp;·&nbsp; ${d.tagline}</span>
-    <span class="sp-total">${d.total}</span>
+    <span>◈ ${typeLabel} &nbsp;·&nbsp; ${d.tagline}</span>
+    <span class="sp-total">${totalLabel}</span>
   </div>`;
 
   d.sessions.forEach(sess => {
-    html += `<div style="padding:6px 14px 3px;font-family:'Cinzel',serif;font-size:.56rem;color:${accent};letter-spacing:.12em;text-transform:uppercase;border-top:1px solid rgba(122,97,48,.14);">${sess.label}</div>`;
+    const lbl = isAr && sess.labelAr ? sess.labelAr : sess.label;
+    html += `<div style="padding:6px 14px 3px;font-family:${isAr?"serif":"'Cinzel',serif"};font-size:${isAr?'.7rem':'.56rem'};color:${accent};letter-spacing:${isAr?'0':'.12em'};text-transform:uppercase;border-top:1px solid rgba(122,97,48,.14);direction:${isAr?'rtl':'ltr'}">${lbl}</div>`;
     html += `<div class="sp-rows">`;
     sess.surahs.forEach(s => {
-      html += `<div class="sp-row"><span class="sp-name-en">${s.en}</span><span class="sp-name-ar">${s.ar}</span><span class="sp-n">${s.n} ayat</span></div>`;
+      html += `<div class="sp-row"><span class="sp-name-en">${isAr ? s.ar : s.en}</span><span class="sp-name-ar">${isAr ? '' : s.ar}</span><span class="sp-n">${s.n} ${ayatWord}</span></div>`;
     });
     html += `</div>`;
   });
 
-  html += `<div style="padding:7px 14px;font-family:'Cinzel',serif;font-size:.65rem;color:${accent};text-align:right;border-top:1px solid rgba(122,97,48,.2);letter-spacing:.08em;">${d.total} &nbsp;·&nbsp; Al-Muqantareen ✓</div>`;
+  html += `<div style="padding:7px 14px;font-family:${isAr?"serif":"'Cinzel',serif"};font-size:.65rem;color:${accent};text-align:${align};border-top:1px solid rgba(122,97,48,.2);letter-spacing:.08em;">${totalLabel} &nbsp;·&nbsp; ${footerLabel}</div>`;
   el.innerHTML = html;
 }
 
@@ -871,6 +920,341 @@ function setNight(type) {
 
 // Init
 buildPreview('a');
+
+// ── Language System ──
+const TR = {
+  // --- NAV ---
+  '.nav a[href="#intro"]': 'المقدمة',
+  '.nav a[href="#khatm"]': 'الختمة',
+  '.nav a[href="#targets"]': 'الأهداف',
+  '.nav a[href="#s415"]': 'السحور',
+  '.nav a[href="#s420"]': 'الوتر',
+  '.nav a[href="#dhikr-map"]': 'خريطة الأذكار',
+
+  // --- HEADER ---
+  'h1': 'العشر الأواخر من رمضان',
+  '.subtitle': 'خطة ليلية منظّمة لتحصيل أعلى أجر · من ٩:٠٠ مساءً حتى الفجر ٤:٣٠ صباحاً',
+
+  // --- SECTION TITLES (indexed array for querySelectorAll) ---
+  '.sec': [
+    'لماذا تختلف هذه الليالي العشر',
+    'ختمة القرآن · ٣ أجزاء كل ليلة = ختمة كاملة في ١٠ ليالٍ',
+    'الأهداف الليلية · كل ليلة',
+    'نوع الصلاة · يتناوب كل ليلة',
+    'الجدول الليلي',
+    'خريطة إتمام الأذكار الليلية'
+  ],
+
+  // --- INTRO HADITH CARDS ---
+  '.ic-en': [
+    'ترك ﷺ كلّ راحةٍ لعشر ليالٍ كاملة · أحيا ليله وأيقظ أهله، بلا أيّ استثناء.',
+    'ليلةٌ واحدة تُكفّر ذنوب العمر كلّه · من قامها إيماناً واحتساباً.',
+    'من قرأ ألف آية في ليلة كُتب من المقنطرين · أصحاب الكنوز التي لا تُحصى. هذه الخطة تبلغ ذلك المستوى كل ليلة.'
+  ],
+
+  // --- ODD NIGHTS ---
+  '.odd-lbl': 'تحرّوا ليلة القدر في الوتر من العشر الأواخر · البخاري ٢٠١٧ · مسلم ١١٦٩',
+  '.chip': ['٢١', '٢٣', '٢٥', '٢٧ <span class="badge">أرجاها</span>', '٢٩'],
+
+  // --- KHATM ---
+  '.kn-num': [
+    'الليلة ١ · ٢١', 'الليلة ٢ · ٢٢', 'الليلة ٣ · ٢٣', 'الليلة ٤ · ٢٤', 'الليلة ٥ · ٢٥',
+    'الليلة ٦ · ٢٦', 'الليلة ٧ · ٢٧', 'الليلة ٨ · ٢٨', 'الليلة ٩ · ٢٩', 'الليلة ١٠ · ٣٠'
+  ],
+  '.kn-j': [
+    'جزء ١–٣', 'جزء ٤–٦', 'جزء ٧–٩', 'جزء ١٠–١٢', 'جزء ١٣–١٥',
+    'جزء ١٦–١٨', 'جزء ١٩–٢١', 'جزء ٢٢–٢٤', 'جزء ٢٥–٢٧', 'جزء ٢٨–٣٠'
+  ],
+  '.kn-t': [
+    'النوع ب', 'النوع أ', 'النوع ب', 'النوع أ', 'النوع ب',
+    'النوع أ', 'النوع ب', 'النوع أ', 'النوع ب', 'النوع أ'
+  ],
+
+  // --- TARGETS ---
+  '.tgt-lbl': [
+    'تلاوة القرآن', 'الصلاة (آيات)', 'دعاء ليلة القدر', 'سورة الإخلاص',
+    'سبحان الله العظيم', 'لا إله إلا الله', 'الصلاة الإبراهيمية', 'الدعاء للمؤمنين'
+  ],
+  '.tgt-val': [
+    '٣ أجزاء', '١٠٠٠', '×١٠٠', '×٣٠', '×١٠٠', '×١٠٠', '×١٠٠', '×٣٠'
+  ],
+  '.tsep': 'أو',
+
+  // --- 9:00 PM TILAWAH 1 ---
+  '#s900 .ct': 'تلاوة · الجزء ١ من ٣ &nbsp;·&nbsp; <span style="color:var(--gold-l);font-size:.8rem;">~٦٠ دقيقة</span>',
+  '#s900 .why': 'كل حرف بعشر حسنات. جبريل عليه السلام كان يدارس النبي ﷺ القرآن كل رمضان · ابدأ ليلتك فوراً بهذا الإرث العظيم.',
+  '#s900 .acts': [
+    'ابدأ بتلاوة <b>الجزء الأول من أجزاء الليلة الثلاثة</b> مباشرة بعد انتهاء التراويح.',
+    'اقرأ بتجويد · البطيء المتقن أعظم أجراً من السريع المتساهل.',
+    'إذا دمعت عيناك · لا تتوقف. تلك من أعلى المنازل عند الله.'
+  ],
+  '#s900 .he': [
+    '"من قرأ حرفاً من كتاب الله فله به حسنة، والحسنة بعشر أمثالها." · كل حرف مضاعف.',
+    '"قل هو الله أحد تعدل ثلث القرآن." · ×٣٠ كل ليلة = أجر ١٠ ختمات إضافية فوق ختمتك.'
+  ],
+  '#s900 .mlbl': 'بعد الانتهاء · اقرأ:',
+
+  // --- 10:00 PM QIYAM 1 ---
+  '#s1000 .na .ct': 'قيام · الجلسة ١ من ٣ · النوع أ · جزء تبارك · ٣٥٠ آية',
+  '#s1000 .na .why': 'القيام بالقرآن في جوف الليل هو العمل المميّز لليلة القدر. كل آية في الصلاة تُضاعف أجرها عن التلاوة وحدها · والسجود الطويل أقرب ما تكون فيه من الله.',
+  '#s1000 .na .acts': [
+    'صلِّ <b>٤ ركعات مثنى مثنى</b>. سلّم بعد كل ركعتين.',
+    'أطِل <b>السجود</b> · وادعُ بدعائك الخاص في كل سجدة.'
+  ],
+  '#s1000 .nb .ct': 'قيام · الجلسة ١ من ٣ · النوع ب · الشعراء · ٢٢٧ آية',
+  '#s1000 .nb .why': 'سورة الشعراء تضم قصص سبعة أنبياء · موسى وإبراهيم ونوح وهود وصالح ولوط وشعيب عليهم السلام. تلاوة أخبارهم في عمق الليل تصلك بسلسلة الهداية الإلهية عبر التاريخ.',
+  '#s1000 .nb .acts': [
+    'صلِّ <b>٤ ركعات مثنى مثنى</b>، وزّع سورة الشعراء على الركعات الأربع (~٥٧ آية لكل ركعة).'
+  ],
+  '#s1000 .he': [
+    '"أقرب ما يكون العبد من ربه وهو ساجد فأكثروا الدعاء." · تسبيح «سبحان الله العظيم وبحمده» أخبر النبي ﷺ عائشة رضي الله عنها أن هذه الكلمات تعدل كل ذكر قالته تلك الليلة.'
+  ],
+
+  // --- 10:00 PM Prayer Tables ---
+  '#s1000 .na .pt-h': '◈ النوع أ · الجلسة ١ · ٤ ركعات · ٣٥٠ آية',
+  '#s1000 .na .pt-f': 'الجلسة ١: ٣٥٠ آية · المجموع: ٣٥٠ / ٩٩٥',
+  '#s1000 .nb .pt-h': '◈ النوع ب · الجلسة ١ · ٤ ركعات · الشعراء = ٢٢٧ آية',
+  '#s1000 .nb .pt-f': 'الجلسة ١: ٢٢٧ آية · المجموع: ٢٢٧ / ١٬٠٠١',
+
+  // --- 11:00 PM TILAWAH 2 ---
+  '#s1100 .ct': 'تلاوة · الجزء ٢ من ٣ &nbsp;·&nbsp; <span style="color:var(--gold-l);font-size:.8rem;">~٦٠ دقيقة</span>',
+  '#s1100 .why': 'توزيع التلاوة على جلسات يحافظ على التركيز ويمنع الإرهاق · كل جلسة تشعر وكأنها لقاء جديد مع كتاب الله بدلاً من تمرين على التحمّل.',
+  '#s1100 .acts': [
+    'أتمّ تلاوة <b>الجزء الثاني من أجزاء الليلة الثلاثة</b> كاملاً. حافظ على وضوئك إن استطعت · فهو من توقير كلام الله.'
+  ],
+  '#s1100 .he': [
+    '"من قال لا إله إلا الله وحده... مئة مرة، كانت له عدل عشر رقاب، وكُتب له مئة حسنة، ومُحيت عنه مئة سيئة، وكانت حرزاً من الشيطان."'
+  ],
+
+  // --- 12:00 AM DHIKR STATION ---
+  '#s1200 .ct': 'محطة الأذكار · خواتيم البقرة + الدعاء للمؤمنين + الصلاة على النبي ﷺ',
+  '#s1200 .why': 'ثلاثة من أعظم الأعمال أجراً في محطة واحدة: آخر آيتين من البقرة أُنزلتا من تحت العرش، والدعاء للمؤمنين يُكتب لك بكل مؤمن حسنة، والصلاة على النبي ﷺ تنالك عشر صلوات من الله بكل واحدة.',
+  '#s1200 .mlbl': [
+    '١. آخر آيتين من سورة البقرة · اقرأهما بتمهّل:',
+    '٢. الدعاء للمؤمنين والمؤمنات · ×١٥ هنا، ×١٥ عند الساعة ٤:٠٠ = ٣٠:',
+    '٣. الصلاة الإبراهيمية · بالصيغة التي علّمها النبي ﷺ · ×٣٤ هنا، ×٦٦ عند ٤:٠٠ = ١٠٠:'
+  ],
+  '#s1200 .dua-en': [
+    'نزلت من تحت العرش · "من قرأ بهما في ليلة كفتاه."',
+    'الصلاة الإبراهيمية الكاملة · بالصيغة التي علّمها النبي ﷺ أصحابه حين سألوه كيف يصلّون عليه.'
+  ],
+  '#s1200 .dua-tr': [
+    'آمن الرسول بما أنزل إليه من ربه... · اقرأ حتى نهاية سورة البقرة',
+    'اللهم صلّ على محمد وعلى آل محمد كما صلّيت على إبراهيم...'
+  ],
+  '#s1200 .he': [
+    '"من قرأ بالآيتين من آخر سورة البقرة في ليلة كفتاه."',
+    '"من استغفر للمؤمنين والمؤمنات كتب الله له بكل مؤمن ومؤمنة حسنة." · مضروبة في كل مسلم عاش على وجه الأرض.',
+    '"من صلّى عليّ واحدة صلّى الله عليه عشراً." · ×١٠٠ كل ليلة = ١٬٠٠٠ صلاة من الله عليك.'
+  ],
+
+  // --- 1:00 AM FAMILY BREAK ---
+  '#s100 .ct': 'صدقة + استراحة عائلية · تجديد طاقة منتصف الليل',
+  '#s100 .why': 'موضوعة في منتصف الليل لتكسر أصعب فترة وتُعيد شحن طاقتك للساعات المقدّسة الأخيرة. كان النبي ﷺ أجود ما يكون في رمضان · تصدّق الآن وقلبك منفتح. ثم اجتمعوا على القرآن لتجديد الحماس للنصف الثاني.',
+  '#s100 .acts': [
+    'تصدّق <b>الآن</b> · ولو بمبلغ يسير. الله يرى التوقيت والنية.',
+    'تناولوا وجبة خفيفة معاً كعائلة. اشرب ماءً. تمدّد قليلاً.',
+    'تحدّثوا عن <b>الأجزاء الثلاثة التي تقرؤونها الليلة</b> · موضوعاتها، قصصها، وما أثّر فيكم في النصف الأول.',
+    'هذا ليس كلاماً عابراً · التدبّر الجماعي في القرآن عبادة بحدّ ذاته، ويشحذ التركيز والطاقة لما بقي: الثلث الأخير من الليل، أثمن وقت في السنة كلها.'
+  ],
+  '#s100 .he': [
+    '"كان رسول الله ﷺ أجود الناس، وكان أجود ما يكون في رمضان."'
+  ],
+
+  // --- 1:30 AM QIYAM 2 ---
+  '#s130 .na .ct': 'قيام · الجلسة ٢ من ٣ · النوع أ · جزء تبارك (بقية) · ٣٤٠ آية',
+  '#s130 .na .why': 'بعد الاستراحة العائلية تعود منتعشاً · هذه الجلسة تربط منتصف الليلة بالساعات الأقدس. الركعات الطويلة الآن تحمل ثقل كل ما عملته · وتُهيّئ القلب للثلث الأخير.',
+  '#s130 .nb .ct': 'قيام · الجلسة ٢ من ٣ · النوع ب · الصافات · الدخان · ق · ~٢٨٦ آية',
+  '#s130 .nb .why': 'سورة الصافات تبدأ بالملائكة صفوفاً · مشهدها مهيب حين تُقرأ في جوف الليل. والدخان وق من السور التي كان النبي ﷺ يقرؤهما في فجر الجمعة · ثقلهما يتجاوز عدد آياتهما.',
+
+  '#s130 .na .pt-h': '◈ النوع أ · الجلسة ٢ · ٤ ركعات · إتمام جزء ٢٩ · ٣٤٠ آية',
+  '#s130 .na .pt-f': 'الجلسة ٢: ٣٤٠ آية · المجموع: ٦٩٠ / ٩٩٥',
+  '#s130 .nb .pt-h': '◈ النوع ب · الجلسة ٢ · ٤ ركعات · ~٢٨٦ آية',
+  '#s130 .nb .pt-f': 'الجلسة ٢: ٢٨٦ آية · المجموع: ٥١٣ / ١٬٠٠١',
+
+  // --- 2:30 AM TILAWAH 3 ---
+  '#s230 .ct': 'تلاوة · الجزء ٣ من ٣ · اكتملت الختمة ✓ &nbsp;·&nbsp; <span style="color:var(--gold-l);font-size:.8rem;">~٦٠ دقيقة</span>',
+  '#s230 .why': 'إتمام الختمة قبل الثلث الأخير يعني أنك تدخل أقدس الساعات وقد أوفيت حقّ القرآن كاملاً · فيتفرّغ قلبك تماماً للدعاء والذكر في الذروة.',
+  '#s230 .acts': [
+    'أتمّ تلاوة <b>الجزء الثالث والأخير</b> من حصة الليلة. اكتمل نصيبك من الختمة لهذه الليلة.',
+    'إن أنهيت مبكراً، ابدأ بجزء الغد الأول، أو عُد إلى الفاتحة بتأمّل وتدبّر.'
+  ],
+
+  // --- 3:00 AM LAST THIRD ---
+  '#s300 .na .ct': 'الثلث الأخير · قيام الجلسة ٣ · النوع أ · جزء عمّ · ~٣٢٠ آية',
+  '#s300 .na .l3-en': '"ينزل ربنا تبارك وتعالى إلى السماء الدنيا حين يبقى ثلث الليل الآخر فيقول: من يدعوني فأستجيب له؟ من يسألني فأعطيه؟ من يستغفرني فأغفر له؟" · الله ينادي الآن. لا تتوقف.',
+  '#s300 .nb .ct': 'الثلث الأخير · قيام الجلسة ٣ · النوع ب · الذاريات · الطور · النجم · القمر · الرحمن · الواقعة · النازعات · عبس · ٤٨٨ آية',
+  '#s300 .nb .l3-en': '"ينزل ربنا تبارك وتعالى إلى السماء الدنيا حين يبقى ثلث الليل الآخر." صلاة الرحمن والواقعة هنا · السورتان اللتان تصفان الجنة بأبلغ تفصيل · في هذا الوقت المبارك، من أعظم ما يُتعبّد به.',
+
+  '#s300 .na .pt-h': '◈ النوع أ · الجلسة ٣ · ٤ ركعات · جزء ٣٠ (عمّ) · ~٣٢٠ آية · المقنطرين ✓',
+  '#s300 .na .pt-f': 'الجلسة ٣: ~٣٠٥ آية · ✦ المجموع الكلي: ٩٩٥ آية · المقنطرين ✓',
+  '#s300 .nb .pt-h': '◈ النوع ب · الجلسة ٣ · ٤ ركعات · ٨ سور · ٤٨٨ آية · المقنطرين ✓',
+  '#s300 .nb .pt-f': 'الجلسة ٣: ٤٨٨ آية · ✦ المجموع الكلي: ١٬٠٠١ آية · المقنطرين ✓',
+
+  // --- 4:00 AM PEAK DUA ---
+  '#s400 .ct': 'الذروة · دعاء ليلة القدر + الأدعية الشخصية + إتمام جميع الأذكار',
+  '#s400 .why': 'أتممتَ حصة القرآن وحصة الصلاة. الله ينزل وينادي. هذه اللحظة التي بُنيت الليلة كلها من أجلها · افتح قلبك ولا تتوقف حتى الفجر.',
+  '#s400 .mlbl': [
+    '١. دعاء ليلة القدر · كرّره أكبر عدد ممكن:',
+    '٢. أدعيتك الشخصية · ادعُ بها في السجود، سمِّها واحدة واحدة:',
+    '٣. أتمّ بقية أعداد الأذكار:'
+  ],
+  '#s400 .dua-tr': 'اللهم إنك عفو تحب العفو فاعفُ عني',
+  '#s400 .dua-en': '"اللهم إنك عفوّ تحب العفو فاعفُ عني."',
+  '#s400 .he': [
+    'قالت عائشة رضي الله عنها: "قلت يا رسول الله، أرأيت إن علمت أيّ ليلة ليلة القدر ما أقول فيها؟" قال: قولي هذا الدعاء · وهو أوكد عمل ثابت لهذه الليالي.',
+    '"أقرب ما يكون العبد من ربه وهو ساجد فأكثروا الدعاء." · اجعل كل أدعيتك الشخصية في السجود.'
+  ],
+  '#s400 .pdu-t': '✦ اسأل الله كل شيء · فإن الله يحب أن يُسأل',
+  '#s400 .pdu-i': [
+    'صحتك، وعافية أهلك، وحفظ الله لك',
+    'المغفرة · كن محدداً فيما تندم عليه أكثر',
+    'الفردوس الأعلى · اسأل أعلى درجات الجنة بالاسم',
+    'أشد ما يشغلك هذا العام · قله مباشرة بالاسم',
+    'التيسير في رزقك وعملك ودراستك وهمومك',
+    'الهداية لمن ابتعد من أهلك عن الدين',
+    'الأمة · المظلومين، والمرضى، وأهل البلاء',
+    'كل ما لم تقله بصوت عالٍ قط · الله يعلمه، فاسأله الآن',
+    '← اكتب قائمة أدعيتك الشخصية قبل رمضان وأحضرها كل ليلة.'
+  ],
+
+  // --- 4:15 AM SUHOOR ---
+  '#s415 .ct': 'السحور · الوجبة المباركة',
+  '#s415 .why': 'السحور سنة مؤكدة فيها بركة · يُعين على صيام النهار وعبادته. والمهم: أنت لا تزال في الثلث الأخير وأنت تأكل. لا تدع هذه الدقائق تمر صامتة.',
+  '#s415 .acts': [
+    'كُل خفيفاً واشرب جيداً. استمر في <b>دعاء ليلة القدر</b> بهدوء طوال السحور.',
+    'الوقت بين السحور وأذان الفجر من أعظم أوقات إجابة الدعاء · لا تتوقف.'
+  ],
+  '#s415 .he': [
+    '"تسحّروا فإن في السحور بركة."'
+  ],
+
+  // --- 4:20 AM WITR ---
+  '#s420 .ct': 'الوتر + آخر دعاء قبل الفجر',
+  '#s420 .why': 'الوتر خاتمة صلاة الليل. والوقت بين أذان الفجر والإقامة ثابت أن الدعاء فيه لا يُردّ · استغلّ كل ثانية.',
+  '#s420 .acts': [
+    'صلِّ <b>الوتر · ركعة أو ثلاث ركعات</b> مع دعاء القنوت في الركعة الأخيرة.',
+    'بعد الوتر: عُد لدعاء ليلة القدر بلا توقف حتى يؤذّن المؤذن.',
+    'حين يُؤذّن: ادعُ أثناء الأذان · ثم ادعُ مرة أخرى <b>بين الأذان والإقامة</b>.'
+  ],
+  '#s420 .he': [
+    '"اجعلوا آخر صلاتكم بالليل وتراً."',
+    '"الدعاء بين الأذان والإقامة لا يُردّ."'
+  ],
+
+  // --- 4:30 AM FAJR ---
+  '.schedule > .tb:last-child .ct': 'صلاة الفجر · خاتمة الليلة',
+  '.schedule > .tb:last-child .why': 'الفجر في جماعة تعدل قيام الليل كله. هذه الصلاة تختم كل ما عملته · صلّها بنفس الحضور الذي صليت به التهجد.',
+  '.schedule > .tb:last-child .he': [
+    '"من صلّى الصبح في جماعة فكأنما صلّى الليل كلّه."'
+  ],
+
+  // --- DHIKR MAP ---
+  '.dm-t': [
+    '☽ دعاء ليلة القدر × ١٠٠',
+    '📿 سورة الإخلاص × ٣٠',
+    '✨ سبحان الله العظيم وبحمده × ١٠٠',
+    '🌟 لا إله إلا الله وحده × ١٠٠',
+    '💛 الصلاة الإبراهيمية × ١٠٠',
+    '🤝 الدعاء للمؤمنين × ٣٠'
+  ],
+  '.dm-d': [
+    '×٢٥ بعد التلاوة ١ (٩:٠٠ م) · ×٢٥ بعد التلاوة ٢ (١١:٠٠ م) · ×٢٥ بعد التلاوة ٣ (٢:٣٠ ص) · ×٢٥ عند الذروة (٤:٠٠ ص)',
+    '×١٠ بعد التلاوة ١ (٩:٠٠ م) · ×١٠ بعد التلاوة ٣ (٢:٣٠ ص) · ×١٠ عند الذروة (٤:٠٠ ص)',
+    '×٣٤ بعد القيام ١ (١٠:٠٠ م) · ×٣٣ بعد القيام ٢ (١:٣٠ ص) · ×٣٣ عند الذروة (٤:٠٠ ص)',
+    '×٣٤ بعد التلاوة ٢ (١١:٠٠ م) · ×٣٣ بعد التلاوة ٣ (٢:٣٠ ص) · ×٣٣ عند الذروة (٤:٠٠ ص)',
+    '×٣٤ في محطة الأذكار (١٢:٠٠ ص) · ×٦٦ عند الذروة (٤:٠٠ ص)',
+    '×١٥ في محطة الأذكار (١٢:٠٠ ص) · ×١٥ عند الذروة (٤:٠٠ ص)'
+  ],
+  '.dm-total': [
+    '= ١٠٠ / ١٠٠ ✓',
+    '= ٣٠ / ٣٠ ✓ · الأجر = ١٠ ختمات كاملة',
+    '= ١٠٠ / ١٠٠ ✓ · يرجح كل أذكار الليلة',
+    '= ١٠٠ / ١٠٠ ✓ · تعدل عتق ١٠ رقاب، ومحو ١٠٠ سيئة',
+    '= ١٠٠ / ١٠٠ ✓ · = ١٬٠٠٠ صلاة من الله عليك',
+    '= ٣٠ / ٣٠ ✓ · حسنة بكل مسلم عاش على الأرض'
+  ],
+
+  // --- CLOSING AYAH ---
+  '.ayah-en': '"إنّا أنزلناه في ليلة القدر · وما أدراك ما ليلة القدر · ليلة القدر خير من ألف شهر"',
+
+  // --- FOOTER ---
+  'footer > p:first-of-type': 'كل حديث في هذه الخطة من <span class="gld">صحيح البخاري وصحيح مسلم</span> أو من أسانيد صحيحة وحسنة في الترمذي وأبي داود وابن حبان والطبراني وابن ماجه. لم يُدرج أي حديث ضعيف أو موضوع.<br>تقبّل الله منكم وبلّغكم ليلة القدر وقَبِل كل أنفاس عبادتكم.'
+};
+
+// --- Inline text (non-selector) by parent scope ---
+const TR_INLINE = {
+  '.odd > p': 'اتّبع نفس الخطة في الليالي الشفعية · لا تُضيّع أي ليلة من العشر.',
+  '#khatm > p': 'كل ليلة تقرأ ٣ أجزاء بالضبط · موزّعة على ثلاث جلسات تلاوة مدّة كل منها ٦٠ دقيقة. هكذا تُتِمّ الثلاثين جزءاً في عشر ليالٍ.',
+  '#targets > p': 'الصلاة موزّعة على ٣ جلسات خلال الليل بإجمالي ٩٩٥ آية · مستوى <em>المقنطرين</em>. <strong style="color:var(--cream)">اختر نوعك أدناه</strong> لرؤية قائمة السور الكاملة لليلة، ثم انتقل للأسفل لمتابعة الجدول.',
+  '#dhikr-map > p': 'كل هدف موزّع على مدار الليل حتى لا تصبح أي جلسة مرهقة. استخدم هذا كمرجع سريع.'
+};
+
+// Store originals
+const _orig = {};
+const _origInline = {};
+
+function _initTR() {
+  for (const sel in TR) {
+    const val = TR[sel];
+    if (sel.endsWith('.acts')) {
+      // .acts: store original li innerHTML array
+      const ul = document.querySelector(sel);
+      if (ul) { _orig[sel] = []; ul.querySelectorAll('li').forEach((li,i) => { _orig[sel][i] = li.innerHTML; }); }
+    } else if (Array.isArray(val)) {
+      _orig[sel] = [];
+      document.querySelectorAll(sel).forEach((el, i) => { _orig[sel][i] = el.innerHTML; });
+    } else {
+      const el = document.querySelector(sel);
+      if (el) _orig[sel] = el.innerHTML;
+    }
+  }
+  for (const sel in TR_INLINE) {
+    const el = document.querySelector(sel);
+    if (el) _origInline[sel] = el.innerHTML;
+  }
+}
+
+function _applyTR(lang) {
+  for (const sel in TR) {
+    const val = TR[sel];
+    if (sel.endsWith('.acts')) {
+      // .acts: swap individual li content
+      const ul = document.querySelector(sel);
+      if (ul) {
+        const lis = ul.querySelectorAll('li');
+        const src = lang === 'ar' ? val : _orig[sel];
+        if (src) src.forEach((txt, j) => { if (lis[j]) lis[j].innerHTML = txt; });
+      }
+    } else if (Array.isArray(val)) {
+      document.querySelectorAll(sel).forEach((el, i) => {
+        if (val[i] !== undefined) el.innerHTML = lang === 'ar' ? val[i] : (_orig[sel][i] || '');
+      });
+    } else {
+      const el = document.querySelector(sel);
+      if (el) el.innerHTML = lang === 'ar' ? val : (_orig[sel] || '');
+    }
+  }
+  for (const sel in TR_INLINE) {
+    const el = document.querySelector(sel);
+    if (el) el.innerHTML = lang === 'ar' ? TR_INLINE[sel] : (_origInline[sel] || '');
+  }
+}
+
+function setLang(lang) {
+  const body = document.body;
+  const btn = document.getElementById('langBtn');
+  body.classList.toggle('lang-ar', lang === 'ar');
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  if (btn) btn.textContent = lang === 'ar' ? 'EN' : 'عربي';
+  document.title = lang === 'ar' ? 'العشر الأواخر · خطة أقصى أجر' : 'Last 10 Nights  ·  Maximum Ajr Plan';
+  _applyTR(lang);
+  // Rebuild surah preview with new language
+  buildPreview(body.classList.contains('sb') ? 'b' : 'a');
+}
+
+_initTR();
 </script>
 </body>
 </html>
